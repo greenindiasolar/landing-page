@@ -1,7 +1,7 @@
 import HeroImage1 from '../assets/Images/Hero/Hero-1.webp';
 import HeroImage2 from '../assets/Images/Hero/Hero-2.webp';
 import HeroImage3 from '../assets/Images/Hero/Hero-3.webp';
-import HeroImage4 from '../assets/Images/Hero/Hero-4.webp';
+import HeroImage4 from '../assets/Images/Hero/hero-4.webp';
 
 export interface HeroSlide {
     id: number;
