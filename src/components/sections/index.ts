@@ -1,0 +1,11 @@
+export { default as Hero } from './Hero/Hero';
+export { default as HeroSlide } from './Hero/HeroSlide';
+export { default as HeroNavigation } from './Hero/HeroNavigation';
+export { default as AboutUs } from './AboutUs/AboutUs';
+export { default as WhyChooseUs } from './WhyChooseUs/WhyChooseUs';
+export { default as OurProcess } from './OurProcess/OurProcess';
+export { default as Calculator } from './Calculator/Calculator';
+export { default as Testimonials } from './Testimonials/Testimonials';
+export { default as FAQ } from './FAQ/FAQ';
+export { default as GetInTouch } from './GetInTouch/GetInTouch';
+export { default as OurPromise } from './OurPromise/OurPromise';
