@@ -1,73 +1,196 @@
-# React + TypeScript + Vite
+# Green India Solar Energy - Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive landing page for Green India Solar Energy - India's fastest-growing solar energy network. Built with React, TypeScript, and Material-UI to provide an exceptional user experience for potential solar customers.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19.2.0-61dafb?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178c6?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-7.2.4-646cff?logo=vite)
+![Material-UI](https://img.shields.io/badge/MUI-7.3.6-007fff?logo=mui)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Features
 
-## React Compiler
+- **Interactive Solar Calculator** - Real-time calculations for residential and commercial solar installations
+- **Responsive Design** - Optimized for mobile, tablet, and desktop devices
+- **Auto-rotating Hero Carousel** - Engaging visual presentation with smooth transitions
+- **Lead Capture System** - Session-based user information storage
+- **Animated Statistics** - CountUp animations for key metrics
+- **6-Step Process Timeline** - Visual journey from enquiry to installation
+- **Customer Testimonials** - Interactive carousel with image galleries
+- **FAQ Section** - Accordion-style answers to common questions
+- **SEO Optimized** - Proper meta tags and semantic HTML
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+### Core
+- **React 19.2.0** - UI library
+- **TypeScript 5.9.3** - Type safety
+- **Vite 7.2.4** - Build tool and dev server
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### UI & Styling
+- **Material-UI (MUI) 7.3.6** - Component library
+- **Emotion** - CSS-in-JS styling
+- **Styled Components 6.1.19** - Component styling
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Additional Libraries
+- **React CountUp 6.5.3** - Animated statistics
+- **Lucide React 0.562.0** - Icon library
+- **MUI Icons Material 7.3.6** - Material Design icons
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📦 Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Clone the repository
+git clone <repository-url>
+
+# Navigate to project directory
+cd Green-solar-web
+
+# Install dependencies
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Start development server
+npm run dev
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run linter
+npm run lint
 ```
+
+The development server will start at `http://localhost:5173`
+
+## 📁 Project Structure
+
+```
+src/
+├── components/
+│   ├── common/              # Reusable components
+│   │   └── Button/
+│   ├── layout/              # Layout components
+│   │   ├── Navbar/
+│   │   └── Footer/
+│   └── sections/            # Page sections
+│       ├── Hero/
+│       ├── AboutUs/
+│       ├── WhyChooseUs/
+│       ├── OurPromise/
+│       ├── Calculator/      # Solar calculator
+│       ├── OurProcess/
+│       ├── Testimonials/
+│       ├── FAQ/
+│       └── GetInTouch/
+├── assets/
+│   └── Images/              # Image assets
+├── data/
+│   └── heroSlides.ts        # Hero carousel data
+├── hooks/
+│   └── useInterval.ts       # Custom hooks
+├── utils/
+│   └── calculatorUtils.ts   # Calculator logic
+├── theme/
+│   └── index.ts             # MUI theme & design tokens
+├── App.tsx                  # Main app component
+├── main.tsx                 # Entry point
+└── index.css                # Global styles
+```
+
+## 🧮 Solar Calculator
+
+The calculator provides real-time estimates for solar installations:
+
+### Features
+- **Customer Type Toggle** - Residential vs Commercial
+- **Pincode Input** - Localized data support
+- **Bill Slider** - ₹300 to ₹10,000 range
+- **Real-time Calculations**:
+  - System size (kW)
+  - Annual savings
+  - System price
+  - Government subsidies
+  - Discounts
+  - Net cost
+  - 25-year savings projection
+  - ROI timeline
+
+### Calculation Constants
+- Price per kW: ₹60,000
+- Units per kW/year: 1,440
+- Roof space per kW: 80 sq ft
+- Flat discount: ₹22,000
+
+### Subsidies (Residential)
+- 1 kW: ₹30,000
+- 2 kW: ₹60,000
+- 3+ kW: ₹78,000
+
+## 🎨 Design System
+
+### Colors
+- **Primary**: #ff9010 (Orange)
+- **Secondary**: #64d240 (Green)
+- **Text**: #111827 (Dark Gray)
+- **Background**: #ffffff (White)
+
+### Typography
+- **Headings**: Onest
+- **Body**: Onest
+- **Special**: Inter
+
+### Responsive Breakpoints
+- Mobile: < 768px
+- Tablet: 768px - 1024px
+- Desktop: > 1024px
+
+## 📄 Page Sections
+
+1. **Navbar** - Fixed navigation with CTA
+2. **Hero** - Auto-rotating carousel (4 slides)
+3. **About Us** - Company introduction
+4. **Why Choose Us** - Animated statistics
+5. **Our Promise** - Core commitments
+6. **Calculator** - Interactive solar calculator
+7. **Our Process** - 6-step timeline
+8. **Testimonials** - Customer reviews
+9. **FAQ** - Common questions
+10. **Get In Touch** - Contact CTA
+11. **Footer** - Links and newsletter
+
+## 🔧 Configuration
+
+### TypeScript
+- `tsconfig.json` - Base configuration
+- `tsconfig.app.json` - App-specific config
+- `tsconfig.node.json` - Node-specific config
+
+### Vite
+Configuration in `vite.config.ts`
+
+### ESLint
+Configuration in `eslint.config.js`
+
+## 🌐 Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## 📝 License
+
+All rights reserved © 2025 Green India Solar Energy
+
+## 👥 Contact
+
+For inquiries about this project, please contact Green India Solar Energy.
+
+---
+
+**Built with ❤️ for a sustainable future**
