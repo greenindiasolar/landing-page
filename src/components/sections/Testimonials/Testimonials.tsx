@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {Star, FileText } from 'lucide-react';
+import { Star, FileText } from 'lucide-react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackwardIcon from '@mui/icons-material/ArrowBack';
 const designTokens = {
@@ -144,8 +144,8 @@ const TestimonialCarousel = () => {
   };
 
   return (
-    <div  id='testimonials' style={{
-      backgroundColor: '#fff' ,
+    <div id='testimonials' data-scroll-section style={{
+      backgroundColor: '#fff',
       padding: isMobile ? '40px 0 60px' : isTablet ? '60px 0 80px' : '0',
       fontFamily: "'Onest', -apple-system, BlinkMacSystemFont, sans-serif"
     }}>
@@ -186,7 +186,7 @@ const TestimonialCarousel = () => {
           alignItems: 'start',
           marginBottom: isMobile ? '32px' : isTablet ? '40px' : '48px',
           backgroundColor: designTokens.colors.bg.lightest,
-          borderRadius:"16px",
+          borderRadius: "16px",
         }}>
           {/* Left Side - Testimonial Card */}
           <div style={{
@@ -264,7 +264,7 @@ const TestimonialCarousel = () => {
                   if (svg) svg.setAttribute('stroke', designTokens.colors.brand.primary);
                 }}
               >
-                <ArrowBackwardIcon sx={{color: designTokens.colors.brand.primary, fontSize: isMobile ? '20px' : '24px'}} />
+                <ArrowBackwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isMobile ? '20px' : '24px' }} />
               </button>
               <button
                 onClick={handleNext}
@@ -291,7 +291,7 @@ const TestimonialCarousel = () => {
                   if (svg) svg.setAttribute('stroke', designTokens.colors.brand.primary);
                 }}
               >
-                <ArrowForwardIcon   sx={{color: designTokens.colors.brand.primary, fontSize: isMobile ? '20px' : '24px'}} />
+                <ArrowForwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isMobile ? '20px' : '24px' }} />
               </button>
             </div>
           </div>

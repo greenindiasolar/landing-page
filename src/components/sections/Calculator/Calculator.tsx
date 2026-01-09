@@ -159,6 +159,7 @@ const SolarCalculator: React.FC = () => {
   return (
     <Box
       id="calculator"
+      data-scroll-section
       sx={{
         minHeight: '100vh',
         backgroundColor: '#fff',

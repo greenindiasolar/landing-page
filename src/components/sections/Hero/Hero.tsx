@@ -65,6 +65,7 @@ const Hero: React.FC = () => {
 
     return (
         <HeroContainer
+            data-scroll-section
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >

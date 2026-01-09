@@ -94,7 +94,7 @@ const PromiseText = styled(Typography)({
     fontSize: '20px',
     fontWeight: 400,
     lineHeight: "130%",
-    letterSpacing:"-2%",
+    letterSpacing: "-2%",
     color: designTokens.colors.text.tertiary,
     '@media (max-width: 600px)': {
         fontSize: '16px',
@@ -115,7 +115,7 @@ const promises: PromiseItemType[] = [
 
 const OurPromise: React.FC = () => {
     return (
-        <SectionWrapper id="our-promise">
+        <SectionWrapper id="our-promise" data-scroll-section>
             <Container maxWidth="lg">
                 <Headline variant="h2">Our Promise</Headline>
 

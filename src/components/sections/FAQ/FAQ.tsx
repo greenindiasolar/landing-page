@@ -184,7 +184,7 @@ const FAQ: React.FC = () => {
     };
 
     return (
-        <SectionWrapper style={{backgroundColor: '#FFF'}} id="faq">
+        <SectionWrapper style={{ backgroundColor: '#FFF' }} id="faq" data-scroll-section>
             <Container maxWidth="lg">
                 {/* Header */}
                 <Box sx={{ marginBottom: '64px' }}>

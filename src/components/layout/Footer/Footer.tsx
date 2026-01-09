@@ -206,7 +206,7 @@ const Footer: React.FC = () => {
     };
 
     return (
-        <FooterWrapper style={{ backgroundColor: '#FFF' }}>
+        <FooterWrapper style={{ backgroundColor: '#FFF' }} data-scroll-section>
             <Container maxWidth="lg">
                 <FooterTop>
                     <Grid container spacing={6}>

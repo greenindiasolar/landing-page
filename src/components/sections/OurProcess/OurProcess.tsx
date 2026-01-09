@@ -87,7 +87,7 @@ const Description = styled(Typography)({
     fontSize: '20px',
     fontWeight: 400,
     lineHeight: "150%",
-    letterSpacing:"-2%",
+    letterSpacing: "-2%",
     color: designTokens.colors.text.body,
     textAlign: 'center',
     maxWidth: '900px',
@@ -299,7 +299,7 @@ const OurProcess: React.FC = () => {
     }, []);
 
     return (
-        <SectionWrapper style={{backgroundColor: '#FFF'}} id="our-process">
+        <SectionWrapper style={{ backgroundColor: '#FFF' }} id="our-process" data-scroll-section>
             <Container maxWidth="lg">
                 {/* Header */}
                 <Box sx={{ textAlign: 'center', marginBottom: '80px' }}>

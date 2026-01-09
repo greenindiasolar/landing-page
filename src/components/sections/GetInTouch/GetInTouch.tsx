@@ -73,7 +73,7 @@ const Description = styled(Typography)({
 
 const GetInTouch: React.FC = () => {
     return (
-        <SectionWrapper id="get-in-touch">
+        <SectionWrapper id="get-in-touch" data-scroll-section>
             <ContentWrapper maxWidth="lg">
                 <Headline>Still Have a Question?</Headline>
                 <Description>

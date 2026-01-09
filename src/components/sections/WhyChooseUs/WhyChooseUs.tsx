@@ -186,7 +186,7 @@ const WhyChooseUs: React.FC = () => {
     }, [isVisible]);
 
     return (
-        <SectionWrapper  style={{backgroundColor: '#FFF'}} ref={sectionRef} id="why-choose-us">
+        <SectionWrapper style={{ backgroundColor: '#FFF' }} ref={sectionRef} id="why-choose-us" data-scroll-section>
             <ContentContainer>
                 <Box sx={{ textAlign: 'center', marginBottom: '48px' }}>
                     {/* <SectionTag sx={{ justifyContent: 'center' }}>

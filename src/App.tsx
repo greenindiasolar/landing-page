@@ -1,44 +1,47 @@
 import { Box } from '@mui/material';
 import { Navbar, Footer } from './components/layout';
 import { Hero, AboutUs, WhyChooseUs, Calculator, OurPromise, OurProcess, Testimonials, FAQ, GetInTouch } from './components/sections';
+import { LocomotiveScrollProvider } from './components/common';
 
 function App() {
   return (
-    <Box sx={{ minHeight: '100vh' }}>
-      {/* Fixed Navbar */}
-      <Navbar />
+    <LocomotiveScrollProvider>
+      <Box sx={{ minHeight: '100vh' }}>
+        {/* Fixed Navbar */}
+        <Navbar />
 
-      {/* Hero Section */}
-      <Hero />
+        {/* Hero Section */}
+        <Hero />
 
-      {/* About Us Section */}
-      <AboutUs />
+        {/* About Us Section */}
+        <AboutUs />
 
-      {/* Why Choose Us Section */}
-      <WhyChooseUs />
+        {/* Why Choose Us Section */}
+        <WhyChooseUs />
 
-      {/* Our Promise Section */}
-      <OurPromise />
+        {/* Our Promise Section */}
+        <OurPromise />
 
-      {/* Calculator Section */}
-      <Calculator />
+        {/* Calculator Section */}
+        <Calculator />
 
-      {/* Our Process Section */}
-      <OurProcess />
+        {/* Our Process Section */}
+        <OurProcess />
 
-      {/* Testimonials Section */}
-      <Testimonials />
+        {/* Testimonials Section */}
+        <Testimonials />
 
-      {/* FAQ Section */}
-      <FAQ />
+        {/* FAQ Section */}
+        <FAQ />
 
-      {/* Get In Touch Section */}
-      <GetInTouch />
+        {/* Get In Touch Section */}
+        <GetInTouch />
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
 
-    </Box>
+      </Box>
+    </LocomotiveScrollProvider>
   );
 }
 

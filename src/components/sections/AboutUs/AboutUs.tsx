@@ -156,18 +156,18 @@ const MainImage = styled('img')({
 
 const AboutUs: React.FC = () => {
     return (
-        <SectionWrapper id="about">
+        <SectionWrapper id="about" data-scroll-section>
             <ContentContainer >
                 <Grid container spacing={8} alignItems="center">
                     <Grid size={{ xs: 12, md: 6 }}>
-                        <ImageWrapper>
+                        <ImageWrapper data-scroll data-scroll-speed="1.2">
                             <ImageContainer>
                                 <MainImage src={AboutUsImage} alt="Solar panel installation" />
                             </ImageContainer>
                         </ImageWrapper>
                     </Grid>
 
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid size={{ xs: 12, md: 6 }} data-scroll data-scroll-speed="0.8">
                         <SectionTag>
                             {/* <TagDivider /> */}
                             <TagText>About Us</TagText>
