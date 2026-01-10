@@ -48,13 +48,31 @@ const designTokens = {
 
 // Stacking card offset for peeking effect (in pixels)
 const CARD_STACK_OFFSET = 20;
+// Height of the sticky header
+const STICKY_HEADER_HEIGHT = 180;
 
 const SectionWrapper = styled(Box)({
     backgroundColor: designTokens.colors.bg.white,
-    padding: '120px 0',
+    padding: '120px 0 0 0',
     overflow: 'visible',
     '@media (max-width: 900px)': {
         padding: '60px 0',
+    },
+});
+
+// Sticky Header Container
+const StickyHeader = styled(Box)({
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
+    backgroundColor: designTokens.colors.bg.white,
+    paddingTop: '40px',
+    paddingBottom: '40px',
+    textAlign: 'center',
+    '@media (max-width: 900px)': {
+        position: 'relative',
+        paddingTop: '20px',
+        paddingBottom: '20px',
     },
 });
 
@@ -161,41 +179,10 @@ const ImagePlaceholder = styled(Box)({
 const StackingContainer = styled(Box)({
     position: 'relative',
     paddingTop: '60px',
-    paddingBottom: '50vh',
-    // Continuous timeline line behind everything
-    '&::before': {
-        content: '""',
-        position: 'absolute',
-        left: '50%',
-        top: '60px',
-        bottom: '50vh',
-        width: '3px',
-        background: `linear-gradient(to bottom, ${designTokens.colors.brand.primary}, ${designTokens.colors.brand.primaryDark})`,
-        transform: 'translateX(-50%)',
-        zIndex: 0,
-        '@media (max-width: 900px)': {
-            display: 'none',
-        },
-    },
+    paddingBottom: '20px',
     '@media (max-width: 900px)': {
         paddingTop: '40px',
         paddingBottom: '0',
-    },
-});
-
-// Per-card timeline line overlay (appears above content, below number)
-const TimelineLineOverlay = styled(Box)({
-    position: 'absolute',
-    left: '50%',
-    top: '0',
-    bottom: '0',
-    width: '3px',
-    background: `linear-gradient(to bottom, ${designTokens.colors.brand.primary}, ${designTokens.colors.brand.primaryDark})`,
-    transform: 'translateX(-50%)',
-    zIndex: 5,
-    pointerEvents: 'none',
-    '@media (max-width: 900px)': {
-        display: 'none',
     },
 });
 
@@ -215,7 +202,7 @@ const TimelineNumber = styled(Box)<{ isVisible: boolean }>(({ isVisible }) => ({
     fontWeight: 700,
     color: designTokens.colors.text.white,
     boxShadow: '0px 4px 16px rgba(255, 144, 16, 0.4)',
-    zIndex: 10,
+    zIndex: 10, // Highest - above timeline and content
     opacity: isVisible ? 1 : 0,
     scale: isVisible ? 1 : 0.5,
     transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
@@ -229,12 +216,12 @@ const TimelineNumber = styled(Box)<{ isVisible: boolean }>(({ isVisible }) => ({
     },
 }));
 
-// Sticky card wrapper for stacking effect
+// Sticky card wrapper for stacking effect - now accounts for sticky header
 const StickyCard = styled(Box)<{ stackIndex: number; isLast?: boolean }>(({ stackIndex, isLast }) => ({
     position: 'sticky',
-    top: `calc(50vh - 320px + ${stackIndex * CARD_STACK_OFFSET}px)`,
+    top: `calc(${STICKY_HEADER_HEIGHT}px + ${stackIndex * CARD_STACK_OFFSET}px)`,
     zIndex: stackIndex + 1,
-    marginBottom: isLast ? '37vh' : '40vh',
+    marginBottom: isLast ? '43vh' : '50vh',
     transition: 'transform 0.3s ease-out',
     '@media (max-width: 900px)': {
         position: 'relative',
@@ -248,6 +235,23 @@ const CardContent = styled(Box)({
     background: designTokens.colors.bg.white,
     borderRadius: '24px',
     padding: '24px',
+    boxShadow: designTokens.shadows.stackCard,
+    // Timeline line inside each card - appears above content, below number
+    '&::before': {
+        content: '""',
+        position: 'absolute',
+        left: '50%',
+        top: 0,
+        bottom: 0,
+        width: '3px',
+        background: `linear-gradient(to bottom, ${designTokens.colors.brand.primary}, ${designTokens.colors.brand.primaryDark})`,
+        transform: 'translateX(-50%)',
+        zIndex: 5, // Middle layer - above content (z:1), below number (z:10)
+        pointerEvents: 'none',
+        '@media (max-width: 900px)': {
+            display: 'none',
+        },
+    },
 });
 
 interface ProcessStep {
@@ -344,10 +348,10 @@ const OurProcess: React.FC = () => {
     }, []);
 
     return (
-        <SectionWrapper style={{ backgroundColor: '#FFF' }} id="our-process" data-scroll-section>
+        <SectionWrapper id="our-process" data-scroll-section>
             <Container maxWidth="lg">
-                {/* Header */}
-                <Box sx={{ textAlign: 'center', marginBottom: '80px' }}>
+                {/* Sticky Header */}
+                <StickyHeader>
                     <SectionTag>Our Process</SectionTag>
                     <Headline>
                         A Seamless Journey to <ColoredText>Smart Solar Living</ColoredText>
@@ -355,10 +359,11 @@ const OurProcess: React.FC = () => {
                     <Description>
                         Switching to solar shouldn't feel complicated. We've engineered a simple, transparent process.
                     </Description>
-                </Box>
+                </StickyHeader>
 
-                {/* Stacking Cards */}
+                {/* Stacking Cards - Timeline line is now in ::before pseudo-element */}
                 <StackingContainer>
+
                     {processSteps.map((step, index) => {
                         const isEven = index % 2 === 0;
                         const isVisible = visibleSteps.has(index);
@@ -372,9 +377,6 @@ const OurProcess: React.FC = () => {
                                 ref={(el: HTMLDivElement | null) => { stepRefs.current[index] = el; }}
                             >
                                 <CardContent>
-                                    {/* Timeline Line inside card */}
-                                    <TimelineLineOverlay />
-
                                     {/* Timeline Number */}
                                     <TimelineNumber
                                         isVisible={isVisible}
