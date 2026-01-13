@@ -235,7 +235,7 @@ const SolarCalculator: React.FC = () => {
       sx={{
         minHeight: '100vh',
         backgroundColor: '#fff',
-        padding: { xs: '60px 16px', md: '120px 20px' },
+        padding: { xs: '0px 16px', md: '30px 20px' },
       }}
     >
       <Box sx={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -537,6 +537,9 @@ const SolarCalculator: React.FC = () => {
               </Box>
 
               {/* Comparison Chart - Mobile Version */}
+              <Typography sx={{ color: '#999', fontSize: { xs: '12px', md: '14px' }, mb: { xs: 2, md: 3 } }}>
+                Your Savings with Green Solar India vs Others 
+              </Typography>
               <Box
                 sx={{
                   display: { xs: 'flex', md: 'none' },
@@ -548,6 +551,7 @@ const SolarCalculator: React.FC = () => {
                   px: 2,
                 }}
               >
+                
                 {/* Others Bar */}
                 <Box sx={{ textAlign: 'center', flex: 1 }}>
                   <Box

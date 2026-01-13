@@ -54,10 +54,12 @@ const STICKY_HEADER_HEIGHT = 180;
 
 const SectionWrapper = styled(Box)({
     backgroundColor: designTokens.colors.bg.white,
-    padding: "120px 0 350px 0",
+    padding: "30px 0 30px 0",
+
     overflow: "visible",
     "@media (max-width: 900px)": {
-        padding: "60px 0",
+        padding: "20px 0 0 0 ",
+        borderBottom: "1px solid #E5E7EB",
     },
 });
 

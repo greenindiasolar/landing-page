@@ -35,11 +35,11 @@ export const heroSlides: HeroSlide[] = [
             link: '#quote',
         },
         secondaryButton: {
-            text: 'Services',
-            link: '#explore',
+            text: 'Calculate Your Savings',
+            link: '#calculator',
         },
         backgroundImage: HeroImage3,
-        bottomText: 'Trusted by Homes & Businesses Across Andhra Pradesh ',
+        bottomText: 'Trusted by Homes & Businesses Across Andhra Pradesh',
     },
     {
         id: 2,
@@ -51,8 +51,8 @@ export const heroSlides: HeroSlide[] = [
             link: '#calculator',
         },
         secondaryButton: {
-            text: 'Services',
-            link: '#learn',
+            text: 'Calculate Your Savings',
+            link: '#calculator',
         },
         backgroundImage: HeroImage1,
         bulletPoints: [
@@ -92,8 +92,8 @@ export const heroSlides: HeroSlide[] = [
             link: '#consultation',
         },
         secondaryButton: {
-            text: 'Services',
-            link: '#contact',
+            text: 'Calculate Your Savings',
+            link: '#calculator',
         },
         backgroundImage: HeroImage2,
         bulletPoints: [

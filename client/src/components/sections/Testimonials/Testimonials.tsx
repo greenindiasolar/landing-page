@@ -315,7 +315,7 @@ const TestimonialCarousel = () => {
         padding: isSmallMobile ? '0 16px' : isMobile ? '0 20px' : isTablet ? '0 32px' : '0 40px'
       }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: isSmallMobile ? '32px' : isMobile ? '40px' : '64px' }}>
+        <div style={{ textAlign: 'center', marginBottom: isSmallMobile ? '32px' : isMobile ? '40px' : '64px', marginLeft:isSmallMobile?'20px':0 , marginRight:isSmallMobile?'20px':0}}>
           <h2 style={{
             fontSize: isSmallMobile ? '24px' : isMobile ? '32px' : isTablet ? '40px' : '48px',
             fontWeight: 700,
@@ -332,7 +332,7 @@ const TestimonialCarousel = () => {
             maxWidth: '700px',
             margin: '0 auto',
             lineHeight: '1.6',
-            padding: isMobile ? '0 10px' : '0',
+            padding: isMobile ? '0 30px' : '0',
           }}>
             We don't rely on claims. We rely on customer experiences.
           </p>

@@ -73,7 +73,7 @@ const ContentWrapper = styled(Box)({
         paddingBottom: '100px',
     },
     '@media (max-width: 600px)': {
-        paddingBottom: '80px',
+        paddingBottom: '120px',
     },
 });
 
@@ -186,13 +186,12 @@ const BulletPointsContainer = styled(Box)({
     marginTop: '32px',
     marginBottom: '-60px',
     '@media (max-width: 768px)': {
-        flexDirection: 'column',
-        gap: '12px',
+        gap: '12px 16px',
     },
     '@media (max-width: 600px)': {
         marginTop: '20px',
         marginBottom: '-40px',
-        gap: '10px',
+        gap: '8px 12px',
     },
 });
 
@@ -209,15 +208,21 @@ const BulletPointItem = styled(Box)({
         height: '20px',
         flexShrink: 0,
     },
+    '@media (max-width: 768px)': {
+        flexBasis: 'calc(50% - 8px)',
+    },
     '@media (max-width: 600px)': {
         gap: '8px',
-        fontSize: '13px',
+        fontSize: '12px',
+        whiteSpace: 'nowrap',
         '& svg': {
-            width: '16px',
-            height: '16px',
+            width: '14px',
+            height: '14px',
         },
     },
 });
+
+
 
 // Icon mapping for bullet points
 const iconMap: Record<string, React.ReactNode> = {

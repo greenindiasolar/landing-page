@@ -36,8 +36,8 @@ const StyledAppBar = styled(AppBar, {
     borderRadius: '8px',
     transition: 'transform 0.3s ease-in-out',
     '@media (max-width: 600px)': {
-        top: 12,
-        width: '95%',
+        top: 0,
+        width: '96%',
     },
 }));
 
