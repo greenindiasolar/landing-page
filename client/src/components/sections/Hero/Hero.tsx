@@ -19,6 +19,13 @@ const HeroContainer = styled(Box)({
     borderRadius: '8px',
     marginLeft: '12px',
     marginRight: '12px',
+    '@media (max-width: 600px)': {
+        top: '5px',
+        marginLeft: '8px',
+        marginRight: '8px',
+        minHeight: '600px',
+        borderRadius: '6px',
+    },
 });
 
 const SlidesWrapper = styled(Box)({

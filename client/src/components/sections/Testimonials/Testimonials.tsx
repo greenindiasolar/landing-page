@@ -222,6 +222,7 @@ const AUTO_SCROLL_INTERVAL = 4000;
 
 const TestimonialCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isSmallMobile, setIsSmallMobile] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -254,6 +255,7 @@ const TestimonialCarousel = () => {
 
   useEffect(() => {
     const handleResize = () => {
+      setIsSmallMobile(window.innerWidth < 600);
       setIsMobile(window.innerWidth < 768);
       setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
     };
@@ -287,8 +289,8 @@ const TestimonialCarousel = () => {
     ...testimonials.map(t => t.image),
   ];
 
-  const imageWidth = isMobile ? 80 : isTablet ? 120 : 160;
-  const imageGap = isMobile ? 8 : 12;
+  const imageWidth = isSmallMobile ? 60 : isMobile ? 80 : isTablet ? 120 : 160;
+  const imageGap = isSmallMobile ? 6 : isMobile ? 8 : 12;
   const totalItems = testimonials.length;
 
   // Calculate translation to center the selected image
@@ -304,28 +306,28 @@ const TestimonialCarousel = () => {
   return (
     <div id='testimonials' data-scroll-section style={{
       backgroundColor: '#fff',
-      padding: isMobile ? '40px 0 60px' : isTablet ? '60px 0 80px' : '0',
+      padding: isSmallMobile ? '40px 0 40px' : isMobile ? '40px 0 60px' : isTablet ? '60px 0 80px' : '0',
       fontFamily: "'Onest', -apple-system, BlinkMacSystemFont, sans-serif"
     }}>
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
-        padding: isMobile ? '0 20px' : isTablet ? '0 32px' : '0 40px'
+        padding: isSmallMobile ? '0 16px' : isMobile ? '0 20px' : isTablet ? '0 32px' : '0 40px'
       }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: isMobile ? '40px' : '64px' }}>
+        <div style={{ textAlign: 'center', marginBottom: isSmallMobile ? '32px' : isMobile ? '40px' : '64px' }}>
           <h2 style={{
-            fontSize: isMobile ? '32px' : isTablet ? '40px' : '48px',
+            fontSize: isSmallMobile ? '24px' : isMobile ? '32px' : isTablet ? '40px' : '48px',
             fontWeight: 700,
             lineHeight: '1.2',
             color: designTokens.colors.text.primary,
-            marginBottom: isMobile ? '12px' : '16px',
-            letterSpacing: '-0.96px',
+            marginBottom: isSmallMobile ? '10px' : isMobile ? '12px' : '16px',
+            letterSpacing: isSmallMobile ? '-0.48px' : '-0.96px',
           }}>
             Real Homes. Real Savings. Real Trust.
           </h2>
           <p style={{
-            fontSize: isMobile ? '16px' : '20px',
+            fontSize: isSmallMobile ? '14px' : isMobile ? '16px' : '20px',
             color: designTokens.colors.text.body,
             maxWidth: '700px',
             margin: '0 auto',
@@ -342,22 +344,22 @@ const TestimonialCarousel = () => {
           gridTemplateColumns: isMobile || isTablet ? '1fr' : '440px 1fr',
           gap: '0',
           alignItems: 'center',
-          marginBottom: isMobile ? '32px' : isTablet ? '40px' : '48px',
+          marginBottom: isSmallMobile ? '24px' : isMobile ? '32px' : isTablet ? '40px' : '48px',
           backgroundColor: designTokens.colors.bg.lightest,
-          borderRadius: "16px",
+          borderRadius: isSmallMobile ? '12px' : '16px',
           overflow: 'hidden',
         }}>
           {/* Left Side - Testimonial Card */}
           <div style={{
-            padding: isMobile ? '28px' : isTablet ? '32px' : '40px',
+            padding: isSmallMobile ? '20px' : isMobile ? '28px' : isTablet ? '32px' : '40px',
             height: 'fit-content',
           }}>
             {/* Stars */}
-            <div style={{ display: 'flex', gap: '4px', marginBottom: isMobile ? '20px' : '24px' }}>
+            <div style={{ display: 'flex', gap: isSmallMobile ? '3px' : '4px', marginBottom: isSmallMobile ? '16px' : isMobile ? '20px' : '24px' }}>
               {[...Array(currentTestimonial.rating)].map((_, i) => (
                 <Star
                   key={i}
-                  size={isMobile ? 18 : 20}
+                  size={isSmallMobile ? 16 : isMobile ? 18 : 20}
                   fill="#FFA500"
                   color="#FFA500"
                 />
@@ -366,19 +368,19 @@ const TestimonialCarousel = () => {
 
             {/* Review Text */}
             <p style={{
-              fontSize: isMobile ? '16px' : '18px',
-              lineHeight: '1.7',
+              fontSize: isSmallMobile ? '14px' : isMobile ? '16px' : '18px',
+              lineHeight: isSmallMobile ? '1.6' : '1.7',
               color: designTokens.colors.text.tertiary,
-              marginBottom: isMobile ? '24px' : '32px',
+              marginBottom: isSmallMobile ? '20px' : isMobile ? '24px' : '32px',
               fontWeight: 400,
             }}>
               {currentTestimonial.review}
             </p>
 
             {/* Customer Info */}
-            <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+            <div style={{ marginBottom: isSmallMobile ? '20px' : isMobile ? '24px' : '32px' }}>
               <h3 style={{
-                fontSize: isMobile ? '18px' : '20px',
+                fontSize: isSmallMobile ? '16px' : isMobile ? '18px' : '20px',
                 fontWeight: 700,
                 color: designTokens.colors.text.primary,
                 marginBottom: '4px',
@@ -386,7 +388,7 @@ const TestimonialCarousel = () => {
                 {currentTestimonial.name}
               </h3>
               <p style={{
-                fontSize: isMobile ? '13px' : '14px',
+                fontSize: isSmallMobile ? '12px' : isMobile ? '13px' : '14px',
                 color: designTokens.colors.text.body,
                 fontWeight: 400,
               }}>
@@ -395,12 +397,12 @@ const TestimonialCarousel = () => {
             </div>
 
             {/* Navigation Arrows */}
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ display: 'flex', gap: isSmallMobile ? '10px' : '12px' }}>
               <button
                 onClick={handlePrevious}
                 style={{
-                  width: isMobile ? '44px' : '56px',
-                  height: isMobile ? '44px' : '56px',
+                  width: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
+                  height: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
                   borderRadius: '50%',
                   border: `1px solid #FFF4E7`,
                   backgroundColor: 'transparent',
@@ -421,13 +423,13 @@ const TestimonialCarousel = () => {
                   if (svg) svg.setAttribute('stroke', designTokens.colors.brand.primary);
                 }}
               >
-                <ArrowBackwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isMobile ? '20px' : '24px' }} />
+                <ArrowBackwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isSmallMobile ? '18px' : isMobile ? '20px' : '24px' }} />
               </button>
               <button
                 onClick={handleNext}
                 style={{
-                  width: isMobile ? '44px' : '56px',
-                  height: isMobile ? '44px' : '56px',
+                  width: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
+                  height: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
                   borderRadius: '50%',
                   border: `1px solid #FFF4E7`,
                   backgroundColor: 'transparent',
@@ -448,7 +450,7 @@ const TestimonialCarousel = () => {
                   if (svg) svg.setAttribute('stroke', designTokens.colors.brand.primary);
                 }}
               >
-                <ArrowForwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isMobile ? '20px' : '24px' }} />
+                <ArrowForwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isSmallMobile ? '18px' : isMobile ? '20px' : '24px' }} />
               </button>
             </div>
           </div>
@@ -468,7 +470,7 @@ const TestimonialCarousel = () => {
               style={{
                 display: 'block',
                 width: '100%',
-                maxHeight: isMobile ? '400px' : isTablet ? '450px' : '500px',
+                maxHeight: isSmallMobile ? '300px' : isMobile ? '400px' : isTablet ? '450px' : '500px',
                 objectFit: 'contain',
                 objectPosition: 'right center',
                 transition: 'opacity 0.3s ease',
@@ -488,7 +490,7 @@ const TestimonialCarousel = () => {
             left: 0,
             top: 0,
             bottom: 0,
-            width: isMobile ? '80px' : '150px',
+            width: isSmallMobile ? '60px' : isMobile ? '80px' : '150px',
             background: 'linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)',
             zIndex: 2,
             pointerEvents: 'none',
@@ -500,7 +502,7 @@ const TestimonialCarousel = () => {
             right: 0,
             top: 0,
             bottom: 0,
-            width: isMobile ? '80px' : '150px',
+            width: isSmallMobile ? '60px' : isMobile ? '80px' : '150px',
             background: 'linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)',
             zIndex: 2,
             pointerEvents: 'none',
@@ -530,12 +532,12 @@ const TestimonialCarousel = () => {
                     style={{
                       flex: '0 0 auto',
                       width: `${imageWidth}px`,
-                      height: isMobile ? '80px' : isTablet ? '110px' : '140px',
-                      borderRadius: isMobile ? '10px' : '14px',
+                      height: isSmallMobile ? '60px' : isMobile ? '80px' : isTablet ? '110px' : '140px',
+                      borderRadius: isSmallMobile ? '8px' : isMobile ? '10px' : '14px',
                       overflow: 'hidden',
                       cursor: 'pointer',
                       border: isActive
-                        ? `${isMobile ? '3px' : '4px'} solid ${designTokens.colors.brand.primary}`
+                        ? `${isSmallMobile ? '2px' : isMobile ? '3px' : '4px'} solid ${designTokens.colors.brand.primary}`
                         : '3px solid transparent',
                       transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
                       transform: isActive ? 'scale(1.15)' : 'scale(1)',
@@ -577,8 +579,8 @@ const TestimonialCarousel = () => {
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '6px',
-            marginTop: isMobile ? '20px' : '28px',
+            gap: isSmallMobile ? '4px' : '6px',
+            marginTop: isSmallMobile ? '16px' : isMobile ? '20px' : '28px',
           }}>
             {testimonials.map((_, idx: number) => (
               <button

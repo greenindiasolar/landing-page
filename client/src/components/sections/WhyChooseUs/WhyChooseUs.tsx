@@ -8,12 +8,16 @@ const SectionWrapper = styled(Box)(({
     backgroundColor: designTokens.colors.bg.lightest,
     padding: ' 0',
     '@media (max-width: 900px)': {
-        padding: '60px 0',
+        padding: '60px 0 0 0 ',
     },
 }));
 
 const ContentContainer = styled(Container)({
     maxWidth: '1280px !important',
+    '@media (max-width: 600px)': {
+        paddingLeft: '16px !important',
+        paddingRight: '16px !important',
+    },
 });
 
 
@@ -78,6 +82,11 @@ const StatCard = styled(Box)({
         // boxShadow: '0px 12px 24px 0px rgba(255, 144, 16, 0.15)',
         borderColor: designTokens.colors.brand.primary,
     },
+    '@media (max-width: 600px)': {
+        height: 'auto',
+        minHeight: '200px',
+        padding: '20px 16px',
+    },
 });
 
 const StatNumber = styled(Typography)({
@@ -123,6 +132,10 @@ const StatTitle = styled(Typography)({
     color: designTokens.colors.text.primary,
     marginBottom: '12px',
     textAlign: 'left',
+    '@media (max-width: 600px)': {
+        fontSize: '14px',
+        marginBottom: '8px',
+    },
 });
 
 
@@ -136,6 +149,9 @@ const HighlightedText = styled('span')({
     padding: '4px 16px',
     color: designTokens.colors.brand.primary,
     fontWeight: 600,
+    '@media (max-width: 600px)': {
+        padding: '2px 8px',
+    },
 });
 
 interface Stat {
@@ -184,7 +200,7 @@ const WhyChooseUs: React.FC = () => {
     return (
         <SectionWrapper style={{ backgroundColor: '#FFF' }} ref={sectionRef} id="why-choose-us" data-scroll-section>
             <ContentContainer>
-                <Box sx={{ textAlign: 'center', marginBottom: '48px' }}>
+                <Box sx={{ textAlign: 'center', marginBottom: { xs: '32px', md: '48px' } }}>
                     {/* <SectionTag sx={{ justifyContent: 'center' }}>
                         <TagDivider />
                         <TagText>Why Choose Us</TagText>
@@ -235,7 +251,7 @@ const WhyChooseUs: React.FC = () => {
 
 
             </ContentContainer>
-        </SectionWrapper>
+        </SectionWrapper >
     );
 };
 

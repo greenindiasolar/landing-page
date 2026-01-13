@@ -69,10 +69,20 @@ const ContentWrapper = styled(Box)({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingBottom: '120px',
+    '@media (max-width: 768px)': {
+        paddingBottom: '100px',
+    },
+    '@media (max-width: 600px)': {
+        paddingBottom: '80px',
+    },
 });
 
 const ContentContainer = styled(Container)({
     maxWidth: '1280px !important',
+    '@media (max-width: 600px)': {
+        paddingLeft: '16px !important',
+        paddingRight: '16px !important',
+    },
 });
 
 const SectionTag = styled(Box)({
@@ -80,6 +90,10 @@ const SectionTag = styled(Box)({
     alignItems: 'center',
     gap: '12px',
     marginBottom: '24px',
+    '@media (max-width: 600px)': {
+        gap: '8px',
+        marginBottom: '16px',
+    },
 });
 
 // const TagDivider = styled(Box)({
@@ -95,6 +109,10 @@ const TagText = styled(Typography)({
     fontWeight: 400,
     color: '#E5E7EB',
     letterSpacing: '-0.48px',
+    '@media (max-width: 600px)': {
+        fontSize: '14px',
+        letterSpacing: '-0.28px',
+    },
 });
 
 const Headline = styled(Typography)({
@@ -126,6 +144,12 @@ const Subheadline = styled(Typography)({
     color: designTokens.colors.bg.medium,
     maxWidth: '650px',
     marginBottom: '32px',
+    '@media (max-width: 600px)': {
+        fontSize: '14px',
+        lineHeight: '20px',
+        marginBottom: '24px',
+        maxWidth: '100%',
+    },
 });
 const BottomText = styled(Typography)({
     fontFamily: "'Onest', sans-serif",
@@ -136,14 +160,23 @@ const BottomText = styled(Typography)({
     color: designTokens.colors.bg.medium,
     maxWidth: '450px',
     marginBottom: '-60px',
-    marginTop: "30px"
-
+    marginTop: '30px',
+    '@media (max-width: 600px)': {
+        fontSize: '13px',
+        lineHeight: '18px',
+        marginTop: '20px',
+        marginBottom: '-40px',
+        maxWidth: '100%',
+    },
 });
 
 const ButtonGroup = styled(Box)({
     display: 'flex',
     gap: '16px',
     flexWrap: 'wrap',
+    '@media (max-width: 600px)': {
+        gap: '12px',
+    },
 });
 
 const BulletPointsContainer = styled(Box)({
@@ -156,13 +189,18 @@ const BulletPointsContainer = styled(Box)({
         flexDirection: 'column',
         gap: '12px',
     },
+    '@media (max-width: 600px)': {
+        marginTop: '20px',
+        marginBottom: '-40px',
+        gap: '10px',
+    },
 });
 
 const BulletPointItem = styled(Box)({
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
-    color: "#D1D5DB",
+    color: '#D1D5DB',
     fontFamily: "'Inter', sans-serif",
     fontSize: '16px',
     fontWeight: 400,
@@ -170,6 +208,14 @@ const BulletPointItem = styled(Box)({
         width: '20px',
         height: '20px',
         flexShrink: 0,
+    },
+    '@media (max-width: 600px)': {
+        gap: '8px',
+        fontSize: '13px',
+        '& svg': {
+            width: '16px',
+            height: '16px',
+        },
     },
 });
 

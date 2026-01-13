@@ -32,6 +32,9 @@ const SectionWrapper = styled(Box)({
     '@media (max-width: 900px)': {
         padding: '60px 0',
     },
+    '@media (max-width: 600px)': {
+        padding: '40px 0',
+    },
 });
 
 const Headline = styled(Typography)({
@@ -95,6 +98,9 @@ const StyledAccordionSummary = styled(AccordionSummary)({
             margin: '0 !important',
         },
     },
+    '@media (max-width: 600px)': {
+        padding: '20px 0',
+    },
 });
 
 const QuestionText = styled(Typography)({
@@ -110,6 +116,9 @@ const QuestionText = styled(Typography)({
 
 const StyledAccordionDetails = styled(AccordionDetails)({
     padding: '0 0 32px 0',
+    '@media (max-width: 600px)': {
+        padding: '0 0 20px 0',
+    },
 });
 
 const AnswerText = styled(Typography)({
@@ -118,6 +127,10 @@ const AnswerText = styled(Typography)({
     fontWeight: 400,
     lineHeight: 1.7,
     color: designTokens.colors.text.body,
+    '@media (max-width: 600px)': {
+        fontSize: '14px',
+        lineHeight: 1.6,
+    },
 });
 
 const IconWrapper = styled(Box)({
@@ -134,6 +147,13 @@ const IconWrapper = styled(Box)({
     '& svg': {
         color: designTokens.colors.text.body,
         fontSize: '20px',
+    },
+    '@media (max-width: 600px)': {
+        width: '32px',
+        height: '32px',
+        '& svg': {
+            fontSize: '16px',
+        },
     },
 });
 
@@ -187,7 +207,7 @@ const FAQ: React.FC = () => {
         <SectionWrapper style={{ backgroundColor: '#FFF' }} id="faq" data-scroll-section>
             <Container maxWidth="lg">
                 {/* Header */}
-                <Box sx={{ marginBottom: '64px' }}>
+                <Box sx={{ marginBottom: { xs: '32px', sm: '48px', md: '64px' } }}>
                     <Headline>
                         Frequently asked questions
                     </Headline>

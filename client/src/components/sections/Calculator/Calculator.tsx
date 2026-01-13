@@ -26,12 +26,23 @@ const getSubsidyAmount = (systemSize: number, config: CalculatorConfig): number 
   return 0;
 };
 
+// Tiered pricing: larger systems get lower per-kW rates (reads from config)
+const getPricePerKW = (systemSize: number, config: CalculatorConfig): number => {
+  if (systemSize <= 10) return config.PRICE_1_10_KW;
+  if (systemSize <= 25) return config.PRICE_11_25_KW;
+  if (systemSize <= 50) return config.PRICE_26_50_KW;
+  if (systemSize <= 100) return config.PRICE_51_100_KW;
+  if (systemSize <= 200) return config.PRICE_101_200_KW;
+  return config.PRICE_201_500_KW; // 201-500 kW
+};
+
 const calculateResidentialSolar = (monthlyBill: number, config: CalculatorConfig) => {
   const systemSize = Math.max(1, Math.ceil(monthlyBill / config.RESIDENTIAL_MULTIPLIER));
   const annualSavings = monthlyBill * 12;
   const annualUnitsGenerated = systemSize * config.UNITS_PER_KW_PER_YEAR;
   const roofAreaRequired = systemSize * config.SQFT_PER_KW;
-  const systemPrice = systemSize * config.PRICE_PER_KW;
+  const pricePerKW = getPricePerKW(systemSize, config);
+  const systemPrice = systemSize * pricePerKW;
   const subsidy = getSubsidyAmount(systemSize, config);
   const discount = config.FLAT_DISCOUNT;
   const totalBenefit = subsidy + discount;
@@ -61,7 +72,8 @@ const calculateCommercialSolar = (monthlyBill: number, config: CalculatorConfig)
   const annualSavings = monthlyBill * 12;
   const annualUnitsGenerated = systemSize * config.UNITS_PER_KW_PER_YEAR;
   const roofAreaRequired = systemSize * config.SQFT_PER_KW;
-  const systemPrice = systemSize * config.PRICE_PER_KW;
+  const pricePerKW = getPricePerKW(systemSize, config);
+  const systemPrice = systemSize * pricePerKW;
   const discount = config.FLAT_DISCOUNT; // Now commercial also gets discount
   const effectiveCost = systemPrice - discount;
   const emi25Years = Math.round(effectiveCost / (25 * 12));
@@ -223,7 +235,7 @@ const SolarCalculator: React.FC = () => {
       sx={{
         minHeight: '100vh',
         backgroundColor: '#fff',
-        padding: '40px 20px',
+        padding: { xs: '60px 16px', md: '120px 20px' },
       }}
     >
       <Box sx={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -245,9 +257,10 @@ const SolarCalculator: React.FC = () => {
           sx={{
             textAlign: 'center',
             color: '#6B7280',
-            mb: 6,
-            fontSize: '20px',
+            mb: { xs: 4, md: 6 },
+            fontSize: { xs: '16px', md: '20px' },
             lineHeight: '150%',
+            px: { xs: 1, md: 0 },
           }}
         >
           Stop guessing. Start knowing. Try it once. Your mindset about electricity will change
@@ -265,13 +278,13 @@ const SolarCalculator: React.FC = () => {
           {/* Left Panel - Input Form */}
           <Card
             sx={{
-              borderRadius: '16px',
+              borderRadius: { xs: '12px', md: '16px' },
               boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-              p: 3,
+              p: { xs: 2, md: 3 },
             }}
           >
             {/* Customer Type Tabs */}
-            <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
+            <Box sx={{ display: 'flex', gap: 1, mb: { xs: 2, md: 3 } }}>
               <Button
                 variant={customerType === 'residential' ? 'contained' : 'outlined'}
                 startIcon={<Home />}
@@ -279,6 +292,8 @@ const SolarCalculator: React.FC = () => {
                 sx={{
                   borderRadius: '24px',
                   textTransform: 'none',
+                  fontSize: { xs: '13px', md: '14px' },
+                  padding: { xs: '6px 12px', md: '6px 16px' },
                   backgroundColor: customerType === 'residential' ? '#ff9010' : 'transparent',
                   color: customerType === 'residential' ? 'white' : '#666',
                   borderColor: '#ddd',
@@ -296,6 +311,8 @@ const SolarCalculator: React.FC = () => {
                 sx={{
                   borderRadius: '24px',
                   textTransform: 'none',
+                  fontSize: { xs: '13px', md: '14px' },
+                  padding: { xs: '6px 12px', md: '6px 16px' },
                   backgroundColor: customerType === 'commercial' ? '#ff9010' : 'transparent',
                   color: customerType === 'commercial' ? 'white' : '#666',
                   borderColor: '#ddd',
@@ -367,9 +384,9 @@ const SolarCalculator: React.FC = () => {
             </Box>
 
             {/* Monthly Bill Slider with Input */}
-            <Box sx={{ mb: 4 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                <Typography sx={{ color: '#333', fontSize: '14px' }}>
+            <Box sx={{ mb: { xs: 3, md: 4 } }}>
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, gap: { xs: 1, sm: 0 }, mb: 1 }}>
+                <Typography sx={{ color: '#333', fontSize: { xs: '13px', md: '14px' } }}>
                   Avg. Monthly Electricity Bill (₹)
                 </Typography>
                 <TextField
@@ -385,7 +402,7 @@ const SolarCalculator: React.FC = () => {
                     ),
                   }}
                   sx={{
-                    width: '120px',
+                    width: { xs: '100%', sm: '120px' },
                     '& .MuiOutlinedInput-root': {
                       borderRadius: '8px',
                     },
@@ -397,7 +414,7 @@ const SolarCalculator: React.FC = () => {
                   }}
                 />
               </Box>
-              <Typography sx={{ fontSize: '12px', color: '#999', mb: 2 }}>
+              <Typography sx={{ fontSize: { xs: '11px', md: '12px' }, color: '#999', mb: 2 }}>
                 Range: ₹300 - ₹10,000
               </Typography>
               <Slider
@@ -406,7 +423,7 @@ const SolarCalculator: React.FC = () => {
                 min={300}
                 max={10000}
                 sx={{
-                  height: 8,
+                  height: { xs: 6, md: 8 },
                   '& .MuiSlider-track': {
                     border: 'none',
                     background: 'linear-gradient(90deg, #ffb366 0%, #ff9010 100%)',
@@ -416,8 +433,8 @@ const SolarCalculator: React.FC = () => {
                     opacity: 1,
                   },
                   '& .MuiSlider-thumb': {
-                    width: 24,
-                    height: 24,
+                    width: { xs: 20, md: 24 },
+                    height: { xs: 20, md: 24 },
                     backgroundColor: '#fff',
                     border: '4px solid #ff9010',
                     '&:hover': {
@@ -438,9 +455,9 @@ const SolarCalculator: React.FC = () => {
                 backgroundColor: '#ff9010',
                 color: 'white',
                 borderRadius: '12px',
-                padding: '14px',
+                padding: { xs: '12px', md: '14px' },
                 textTransform: 'none',
-                fontSize: '16px',
+                fontSize: { xs: '14px', md: '16px' },
                 fontWeight: 600,
                 '&:hover': {
                   backgroundColor: '#e68010',
@@ -466,17 +483,17 @@ const SolarCalculator: React.FC = () => {
           <Box sx={{ position: 'relative' }}>
             <Card
               sx={{
-                borderRadius: '16px',
+                borderRadius: { xs: '12px', md: '16px' },
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                p: 3,
+                p: { xs: 2, md: 3 },
                 filter: showResults ? 'none' : 'blur(4px)',
                 opacity: showResults ? 1 : 0.6,
               }}
             >
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, fontSize: { xs: '16px', md: '20px' } }}>
                 Your Estimated solar savings
               </Typography>
-              <Typography sx={{ color: '#999', fontSize: '14px', mb: 3 }}>
+              <Typography sx={{ color: '#999', fontSize: { xs: '12px', md: '14px' }, mb: { xs: 2, md: 3 } }}>
                 Based on your inputs and current market rates
               </Typography>
 
@@ -485,44 +502,109 @@ const SolarCalculator: React.FC = () => {
                 sx={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: 2,
-                  mb: 3,
+                  gap: { xs: 1.5, md: 2 },
+                  mb: { xs: 2, md: 3 },
                 }}
               >
                 <Box
                   sx={{
                     backgroundColor: '#fff5e6',
-                    borderRadius: '12px',
-                    p: 2,
+                    borderRadius: { xs: '10px', md: '12px' },
+                    p: { xs: 1.5, md: 2 },
                     textAlign: 'center',
                   }}
                 >
-                  <Typography sx={{ fontSize: '12px', color: '#666', mb: 1 }}>System Size</Typography>
-                  <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#ff9010' }}>
+                  <Typography sx={{ fontSize: { xs: '10px', md: '12px' }, color: '#666', mb: 0.5 }}>System Size</Typography>
+                  <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 700, color: '#ff9010' }}>
                     {results.systemSize} kW
                   </Typography>
-                  <Typography sx={{ fontSize: '11px', color: '#999' }}>recommended capacity</Typography>
+                  <Typography sx={{ fontSize: { xs: '9px', md: '11px' }, color: '#999' }}>recommended capacity</Typography>
                 </Box>
                 <Box
                   sx={{
                     backgroundColor: '#fff5e6',
-                    borderRadius: '12px',
-                    p: 2,
+                    borderRadius: { xs: '10px', md: '12px' },
+                    p: { xs: 1.5, md: 2 },
                     textAlign: 'center',
                   }}
                 >
-                  <Typography sx={{ fontSize: '12px', color: '#666', mb: 1 }}>Annual Savings</Typography>
-                  <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#ff9010' }}>
+                  <Typography sx={{ fontSize: { xs: '10px', md: '12px' }, color: '#666', mb: 0.5 }}>Annual Savings</Typography>
+                  <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 700, color: '#ff9010' }}>
                     {formatCurrency(results.annualSavings)}
                   </Typography>
-                  <Typography sx={{ fontSize: '11px', color: '#999' }}>per year</Typography>
+                  <Typography sx={{ fontSize: { xs: '9px', md: '11px' }, color: '#999' }}>per year</Typography>
                 </Box>
               </Box>
 
-              {/* Comparison Chart - Now shown for both residential and commercial */}
+              {/* Comparison Chart - Mobile Version */}
               <Box
                 sx={{
-                  display: 'flex',
+                  display: { xs: 'flex', md: 'none' },
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                  gap: 3,
+                  mb: 3,
+                  mt: 2,
+                  px: 2,
+                }}
+              >
+                {/* Others Bar */}
+                <Box sx={{ textAlign: 'center', flex: 1 }}>
+                  <Box
+                    sx={{
+                      backgroundColor: '#e0e0e0',
+                      color: '#666',
+                      padding: '6px 8px',
+                      borderRadius: '6px',
+                      fontWeight: 600,
+                      fontSize: '12px',
+                      mb: 1,
+                    }}
+                  >
+                    {formatCurrency(results.annualSavings)}
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '80px',
+                      backgroundColor: '#e0e0e0',
+                      borderRadius: '6px 6px 0 0',
+                      mb: 0.5,
+                    }}
+                  />
+                  <Typography sx={{ fontSize: '12px', fontWeight: 500, color: '#666' }}>Others</Typography>
+                </Box>
+
+                {/* Green India Bar */}
+                <Box sx={{ textAlign: 'center', flex: 1 }}>
+                  <Box
+                    sx={{
+                      backgroundColor: '#ff9010',
+                      color: 'white',
+                      padding: '6px 8px',
+                      borderRadius: '6px',
+                      fontWeight: 600,
+                      fontSize: '12px',
+                      mb: 1,
+                    }}
+                  >
+                    {formatCurrency(results.annualSavings + config.FLAT_DISCOUNT)}
+                  </Box>
+                  <Box
+                    sx={{
+                      height: '120px',
+                      backgroundColor: '#ff9010',
+                      borderRadius: '6px 6px 0 0',
+                      mb: 0.5,
+                    }}
+                  />
+                  <Typography sx={{ fontSize: '12px', fontWeight: 600, color: '#ff9010' }}>Green India</Typography>
+                </Box>
+              </Box>
+
+              {/* Comparison Chart - Desktop Version */}
+              <Box
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
                   alignItems: 'flex-end',
                   justifyContent: 'center',
                   gap: 4,
@@ -616,20 +698,20 @@ const SolarCalculator: React.FC = () => {
               </Box>
 
               {/* Investment Details */}
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: { xs: 1.5, md: 2 }, fontSize: { xs: '16px', md: '20px' } }}>
                 Your Investment
               </Typography>
               <Box sx={{ mb: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography sx={{ color: '#666' }}>Total cost of plant</Typography>
-                  <Typography sx={{ fontWeight: 500 }}>{formatCurrency(results.systemPrice)}</Typography>
+                  <Typography sx={{ color: '#666', fontSize: { xs: '13px', md: '16px' } }}>Total cost of plant</Typography>
+                  <Typography sx={{ fontWeight: 500, fontSize: { xs: '13px', md: '16px' } }}>{formatCurrency(results.systemPrice)}</Typography>
                 </Box>
 
                 {/* Subsidy - only for residential */}
                 {customerType === 'residential' && (
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    <Typography sx={{ color: '#666' }}>Central Subsidy</Typography>
-                    <Typography sx={{ color: '#ff9010', fontWeight: 500 }}>
+                    <Typography sx={{ color: '#666', fontSize: { xs: '13px', md: '16px' } }}>Central Subsidy</Typography>
+                    <Typography sx={{ color: '#ff9010', fontWeight: 500, fontSize: { xs: '13px', md: '16px' } }}>
                       -{formatCurrency(results.subsidy)}
                     </Typography>
                   </Box>
@@ -642,9 +724,8 @@ const SolarCalculator: React.FC = () => {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     mb: 2,
-                    p: 2,
-                    borderRadius: '12px',
-                    // background: 'linear-gradient(135deg, #fff5e6 0%, #ffe4cc 100%)',
+                    p: { xs: 1.5, md: 2 },
+                    borderRadius: { xs: '10px', md: '12px' },
                     border: '2px solid #447E31',
                     boxShadow: '0 0 20px rgba(255, 144, 16, 0.2)',
                     position: 'relative',
@@ -659,8 +740,8 @@ const SolarCalculator: React.FC = () => {
                       left: '-1px',
                       backgroundColor: '#447E31',
                       color: 'white',
-                      padding: '4px 12px',
-                      fontSize: '10px',
+                      padding: { xs: '3px 8px', md: '4px 12px' },
+                      fontSize: { xs: '8px', md: '10px' },
                       fontWeight: 700,
                       borderRadius: '12px 0 12px 0',
                       display: 'flex',
@@ -668,17 +749,17 @@ const SolarCalculator: React.FC = () => {
                       gap: 0.5,
                     }}
                   >
-                    <LocalOffer sx={{ fontSize: '12px' }} />
+                    <LocalOffer sx={{ fontSize: { xs: '10px', md: '12px' } }} />
                     SPECIAL OFFER
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-                    <Typography sx={{ color: '#333', fontWeight: 600 }}>Green India Discount</Typography>
+                    <Typography sx={{ color: '#333', fontWeight: 600, fontSize: { xs: '13px', md: '16px' } }}>Green India Discount</Typography>
                   </Box>
                   <Typography
                     sx={{
                       color: '#447E31',
                       fontWeight: 700,
-                      fontSize: '18px',
+                      fontSize: { xs: '14px', md: '18px' },
                       mt: 1,
                     }}
                   >
@@ -690,12 +771,12 @@ const SolarCalculator: React.FC = () => {
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    pt: 2,
+                    pt: { xs: 1.5, md: 2 },
                     borderTop: '1px solid #eee',
                   }}
                 >
-                  <Typography sx={{ fontWeight: 600 }}>Net Cost</Typography>
-                  <Typography sx={{ fontWeight: 700, fontSize: '20px', color: '#ff9010' }}>
+                  <Typography sx={{ fontWeight: 600, fontSize: { xs: '14px', md: '16px' } }}>Net Cost</Typography>
+                  <Typography sx={{ fontWeight: 700, fontSize: { xs: '16px', md: '20px' }, color: '#ff9010' }}>
                     {formatCurrency(results.effectiveCost)}
                   </Typography>
                 </Box>
@@ -706,37 +787,37 @@ const SolarCalculator: React.FC = () => {
                 sx={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr',
-                  gap: 2,
-                  mb: 3,
+                  gap: { xs: 1.5, md: 2 },
+                  mb: { xs: 2, md: 3 },
                 }}
               >
                 <Box
                   sx={{
                     backgroundColor: '#fff5e6',
-                    borderRadius: '12px',
-                    p: 2,
+                    borderRadius: { xs: '10px', md: '12px' },
+                    p: { xs: 1.5, md: 2 },
                     textAlign: 'center',
                   }}
                 >
-                  <Typography sx={{ fontSize: '12px', color: '#666', mb: 1 }}>25-Years Savings</Typography>
-                  <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#ff9010' }}>
+                  <Typography sx={{ fontSize: { xs: '10px', md: '12px' }, color: '#666', mb: 0.5 }}>25-Years Savings</Typography>
+                  <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 700, color: '#ff9010' }}>
                     {formatCurrency(results.totalSaving25Years)}
                   </Typography>
-                  <Typography sx={{ fontSize: '11px', color: '#999' }}>total savings</Typography>
+                  <Typography sx={{ fontSize: { xs: '9px', md: '11px' }, color: '#999' }}>total savings</Typography>
                 </Box>
                 <Box
                   sx={{
                     backgroundColor: '#fff5e6',
-                    borderRadius: '12px',
-                    p: 2,
+                    borderRadius: { xs: '10px', md: '12px' },
+                    p: { xs: 1.5, md: 2 },
                     textAlign: 'center',
                   }}
                 >
-                  <Typography sx={{ fontSize: '12px', color: '#666', mb: 1 }}>ROI Timeline</Typography>
-                  <Typography sx={{ fontSize: '24px', fontWeight: 700, color: '#ff9010' }}>
+                  <Typography sx={{ fontSize: { xs: '10px', md: '12px' }, color: '#666', mb: 0.5 }}>ROI Timeline</Typography>
+                  <Typography sx={{ fontSize: { xs: '18px', md: '24px' }, fontWeight: 700, color: '#ff9010' }}>
                     {results.roiYears.toFixed(1)}
                   </Typography>
-                  <Typography sx={{ fontSize: '11px', color: '#999' }}>years payback</Typography>
+                  <Typography sx={{ fontSize: { xs: '9px', md: '11px' }, color: '#999' }}>years payback</Typography>
                 </Box>
               </Box>
 
@@ -749,9 +830,9 @@ const SolarCalculator: React.FC = () => {
                   backgroundColor: '#ff9010',
                   color: 'white',
                   borderRadius: '12px',
-                  padding: '14px',
+                  padding: { xs: '12px', md: '14px' },
                   textTransform: 'none',
-                  fontSize: '16px',
+                  fontSize: { xs: '14px', md: '16px' },
                   fontWeight: 600,
                   '&:hover': {
                     backgroundColor: '#e68010',

@@ -35,6 +35,9 @@ const ContentWrapper = styled(Container)({
     position: 'relative',
     zIndex: 2,
     textAlign: 'center',
+    '@media (max-width: 600px)': {
+        padding: '0 24px',
+    },
 });
 
 const Headline = styled(Typography)({
@@ -65,9 +68,14 @@ const Description = styled(Typography)({
     marginBottom: '40px',
     maxWidth: '600px',
     margin: '0 auto 40px',
+    '@media (max-width: 900px)': {
+        fontSize: '18px',
+    },
     '@media (max-width: 600px)': {
-        fontSize: '16px',
-        marginBottom: '32px',
+        fontSize: '14px',
+        lineHeight: 1.5,
+        marginBottom: '28px',
+        padding: '0 8px',
     },
 });
 
@@ -87,9 +95,13 @@ const GetInTouch: React.FC = () => {
                     sx={{
                         padding: '16px 48px',
                         fontSize: '18px',
-                        '@media (max-width: 600px)': {
-                            padding: '14px 32px',
+                        '@media (max-width: 900px)': {
+                            padding: '14px 40px',
                             fontSize: '16px',
+                        },
+                        '@media (max-width: 600px)': {
+                            padding: '12px 28px',
+                            fontSize: '14px',
                         },
                     }}
                 >

@@ -18,6 +18,9 @@ const NavigationContainer = styled(Box)({
     display: 'flex',
     alignItems: 'center',
     gap: '16px',
+    '@media (max-width: 600px)': {
+        gap: '12px',
+    },
 });
 
 const NavButton = styled(IconButton)({
@@ -34,6 +37,13 @@ const NavButton = styled(IconButton)({
     },
     '& svg': {
         fontSize: '28px',
+    },
+    '@media (max-width: 600px)': {
+        width: '40px',
+        height: '40px',
+        '& svg': {
+            fontSize: '20px',
+        },
     },
 });
 

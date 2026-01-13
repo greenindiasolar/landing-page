@@ -91,14 +91,22 @@ export async function sendLeadNotification(lead: LeadData): Promise<boolean> {
       </div>
     `;
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: 'Green India Solar <onboarding@resend.dev>',
       to: config.adminEmail,
       subject: `🌞 Calculator Lead: ${lead.name} - ${customerTypeLabel}`,
       html: htmlContent,
     });
 
-    console.log('Email notification sent successfully');
+    // Log the full response for debugging
+    console.log('Resend API Response:', JSON.stringify(result, null, 2));
+
+    if (result.error) {
+      console.error('Resend error:', result.error);
+      return false;
+    }
+
+    console.log('Email notification sent successfully, ID:', result.data?.id);
     return true;
   } catch (error) {
     console.error('Error sending email notification:', error);
@@ -163,14 +171,22 @@ export async function sendContactFormNotification(contact: ContactFormData): Pro
       </div>
     `;
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: 'Green India Solar <onboarding@resend.dev>',
       to: config.adminEmail,
       subject: `📋 New Contact: ${contact.name} - Site Visit Request`,
       html: htmlContent,
     });
 
-    console.log('Contact form email notification sent successfully');
+    // Log the full response for debugging
+    console.log('Resend API Response (Contact):', JSON.stringify(result, null, 2));
+
+    if (result.error) {
+      console.error('Resend error:', result.error);
+      return false;
+    }
+
+    console.log('Contact form email notification sent successfully, ID:', result.data?.id);
     return true;
   } catch (error) {
     console.error('Error sending contact form email notification:', error);

@@ -88,13 +88,19 @@ async function sendLeadNotification(lead) {
         </div>
       </div>
     `;
-        await resend.emails.send({
+        const result = await resend.emails.send({
             from: 'Green India Solar <onboarding@resend.dev>',
             to: env_js_1.config.adminEmail,
             subject: `🌞 Calculator Lead: ${lead.name} - ${customerTypeLabel}`,
             html: htmlContent,
         });
-        console.log('Email notification sent successfully');
+        // Log the full response for debugging
+        console.log('Resend API Response:', JSON.stringify(result, null, 2));
+        if (result.error) {
+            console.error('Resend error:', result.error);
+            return false;
+        }
+        console.log('Email notification sent successfully, ID:', result.data?.id);
         return true;
     }
     catch (error) {
@@ -157,13 +163,19 @@ async function sendContactFormNotification(contact) {
         </div>
       </div>
     `;
-        await resend.emails.send({
+        const result = await resend.emails.send({
             from: 'Green India Solar <onboarding@resend.dev>',
             to: env_js_1.config.adminEmail,
             subject: `📋 New Contact: ${contact.name} - Site Visit Request`,
             html: htmlContent,
         });
-        console.log('Contact form email notification sent successfully');
+        // Log the full response for debugging
+        console.log('Resend API Response (Contact):', JSON.stringify(result, null, 2));
+        if (result.error) {
+            console.error('Resend error:', result.error);
+            return false;
+        }
+        console.log('Contact form email notification sent successfully, ID:', result.data?.id);
         return true;
     }
     catch (error) {

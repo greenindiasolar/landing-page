@@ -2,7 +2,14 @@
 // Handles communication with backend for config and lead submission
 
 export interface CalculatorConfig {
-    PRICE_PER_KW: number;
+    PRICE_PER_KW: number; // Legacy field, kept for backwards compatibility
+    // Tiered pricing fields
+    PRICE_1_10_KW: number;
+    PRICE_11_25_KW: number;
+    PRICE_26_50_KW: number;
+    PRICE_51_100_KW: number;
+    PRICE_101_200_KW: number;
+    PRICE_201_500_KW: number;
     UNITS_PER_KW_PER_YEAR: number;
     SQFT_PER_KW: number;
     FLAT_DISCOUNT: number;
@@ -25,7 +32,14 @@ export interface LeadData {
 
 // Default fallback values if API fails
 export const DEFAULT_CONFIG: CalculatorConfig = {
-    PRICE_PER_KW: 60000,
+    PRICE_PER_KW: 70000, // Legacy default
+    // Tiered pricing defaults
+    PRICE_1_10_KW: 70000,
+    PRICE_11_25_KW: 60000,
+    PRICE_26_50_KW: 50000,
+    PRICE_51_100_KW: 45000,
+    PRICE_101_200_KW: 40000,
+    PRICE_201_500_KW: 35000,
     UNITS_PER_KW_PER_YEAR: 1440,
     SQFT_PER_KW: 80,
     FLAT_DISCOUNT: 22000,

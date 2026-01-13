@@ -6,7 +6,14 @@ exports.saveContactFormLead = saveContactFormLead;
 const env_js_1 = require("../config/env.js");
 // Default fallback config
 const DEFAULT_CONFIG = {
-    PRICE_PER_KW: 60000,
+    PRICE_PER_KW: 70000, // Legacy default
+    // Tiered pricing defaults
+    PRICE_1_10_KW: 70000,
+    PRICE_11_25_KW: 60000,
+    PRICE_26_50_KW: 50000,
+    PRICE_51_100_KW: 45000,
+    PRICE_101_200_KW: 40000,
+    PRICE_201_500_KW: 35000,
     UNITS_PER_KW_PER_YEAR: 1440,
     SQFT_PER_KW: 80,
     FLAT_DISCOUNT: 22000,
@@ -34,6 +41,13 @@ async function fetchConfigFromSheet() {
         // Parse config from sheet response
         const sheetConfig = {
             PRICE_PER_KW: Number(data.PRICE_PER_KW) || DEFAULT_CONFIG.PRICE_PER_KW,
+            // Tiered pricing
+            PRICE_1_10_KW: Number(data.PRICE_1_10_KW) || DEFAULT_CONFIG.PRICE_1_10_KW,
+            PRICE_11_25_KW: Number(data.PRICE_11_25_KW) || DEFAULT_CONFIG.PRICE_11_25_KW,
+            PRICE_26_50_KW: Number(data.PRICE_26_50_KW) || DEFAULT_CONFIG.PRICE_26_50_KW,
+            PRICE_51_100_KW: Number(data.PRICE_51_100_KW) || DEFAULT_CONFIG.PRICE_51_100_KW,
+            PRICE_101_200_KW: Number(data.PRICE_101_200_KW) || DEFAULT_CONFIG.PRICE_101_200_KW,
+            PRICE_201_500_KW: Number(data.PRICE_201_500_KW) || DEFAULT_CONFIG.PRICE_201_500_KW,
             UNITS_PER_KW_PER_YEAR: Number(data.UNITS_PER_KW_PER_YEAR) || DEFAULT_CONFIG.UNITS_PER_KW_PER_YEAR,
             SQFT_PER_KW: Number(data.SQFT_PER_KW) || DEFAULT_CONFIG.SQFT_PER_KW,
             FLAT_DISCOUNT: Number(data.FLAT_DISCOUNT) || DEFAULT_CONFIG.FLAT_DISCOUNT,

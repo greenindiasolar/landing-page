@@ -6,14 +6,18 @@ import AboutUsImage from '../../../assets/Images/AboutUs/AboutUs.webp';
 
 const SectionWrapper = styled(Box)({
     backgroundColor: designTokens.colors.bg.white,
-    padding: '120px 0',
+    padding: '120px 0 30px 0',
     '@media (max-width: 900px)': {
-        padding: '60px 0',
+        padding: '60px 0 0 0',
     },
 });
 
 const ContentContainer = styled(Container)({
     // maxWidth: '1280px !important',
+    '@media (max-width: 600px)': {
+        paddingLeft: '16px !important',
+        paddingRight: '16px !important',
+    },
 });
 
 const SectionTag = styled(Box)({
@@ -21,6 +25,10 @@ const SectionTag = styled(Box)({
     alignItems: 'center',
     gap: '12px',
     marginBottom: '16px',
+    '@media (max-width: 600px)': {
+        gap: '8px',
+        marginBottom: '12px',
+    },
 });
 
 // const TagDivider = styled(Box)({
@@ -36,6 +44,10 @@ const TagText = styled(Typography)({
     fontWeight: 400,
     color: designTokens.colors.brand.primary,
     letterSpacing: '-0.48px',
+    '@media (max-width: 600px)': {
+        fontSize: '18px',
+        letterSpacing: '-0.36px',
+    },
 });
 
 const Headline = styled(Typography)({
@@ -82,10 +94,17 @@ const HighlightText = styled('span')({
     padding: '4px 16px',
     color: designTokens.colors.brand.primaryDark,
     fontWeight: 400,
+    '@media (max-width: 600px)': {
+        fontSize: '14px',
+        padding: '4px 12px',
+    },
 });
 
 const FundamentalsSection = styled(Box)({
     marginBottom: '32px',
+    '@media (max-width: 600px)': {
+        marginBottom: '24px',
+    },
 });
 
 const FundamentalsHeading = styled(Typography)({
@@ -95,18 +114,28 @@ const FundamentalsHeading = styled(Typography)({
     lineHeight: 1.4,
     color: designTokens.colors.text.primary,
     marginBottom: '20px',
+    '@media (max-width: 600px)': {
+        fontSize: '16px',
+        marginBottom: '16px',
+    },
 });
 
 const FundamentalsList = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
+    '@media (max-width: 600px)': {
+        gap: '12px',
+    },
 });
 
 const FundamentalItem = styled(Box)({
     display: 'flex',
     alignItems: 'flex-start',
     gap: '12px',
+    '@media (max-width: 600px)': {
+        gap: '10px',
+    },
 });
 
 const FundamentalBullet = styled(Box)({
@@ -116,6 +145,12 @@ const FundamentalBullet = styled(Box)({
     borderRadius: '50%',
     backgroundColor: designTokens.colors.brand.primary,
     marginTop: '5px',
+    '@media (max-width: 600px)': {
+        width: '12px',
+        height: '12px',
+        minWidth: '12px',
+        marginTop: '4px',
+    },
 });
 
 const FundamentalText = styled(Typography)({
@@ -124,6 +159,10 @@ const FundamentalText = styled(Typography)({
     fontWeight: 400,
     lineHeight: 1.5,
     color: designTokens.colors.text.primary,
+    '@media (max-width: 600px)': {
+        fontSize: '14px',
+        lineHeight: 1.4,
+    },
 });
 
 const ImageWrapper = styled(Box)({
@@ -141,7 +180,10 @@ const ImageContainer = styled(Box)({
     position: 'relative',
     width: '100%',
     maxWidth: '576px',
-    maxHeight: "700px"
+    maxHeight: '700px',
+    '@media (max-width: 600px)': {
+        maxWidth: '100%',
+    },
 });
 
 const MainImage = styled('img')({
@@ -150,6 +192,9 @@ const MainImage = styled('img')({
     borderRadius: '16px',
     objectFit: 'cover',
     display: 'block',
+    '@media (max-width: 600px)': {
+        borderRadius: '12px',
+    },
 });
 
 
@@ -206,7 +251,7 @@ const AboutUs: React.FC = () => {
                             </FundamentalsList>
                         </FundamentalsSection>
                         <Description>The result is a solar system that performs reliably year after year — not just on day one.</Description>
-                        <Box sx={{ marginBottom: '56px' }}>
+                        <Box sx={{ marginBottom: { xs: '32px', md: '56px' } }}>
                             <HighlightText>We build systems you can trust — and relationships you can rely on.</HighlightText>
                         </Box>
 
