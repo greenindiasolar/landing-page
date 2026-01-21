@@ -1,12 +1,27 @@
-import { Box } from '@mui/material';
-import { Navbar, Footer } from './components/layout';
-import { Hero, AboutUs, WhyChooseUs, Calculator, OurPromise, OurProcess, Testimonials, FAQ, GetInTouch } from './components/sections';
-import { ContactFormProvider, ContactFormModal, FloatingContactWidget } from './components/common';
+import { Box } from "@mui/material";
+import { Navbar, Footer } from "./components/layout";
+import {
+  Hero,
+  AboutUs,
+  WhyChooseUs,
+  Calculator,
+  OurPromise,
+  OurProcess,
+  Testimonials,
+  Gallery,
+  FAQ,
+  GetInTouch,
+} from "./components/sections";
+import {
+  ContactFormProvider,
+  ContactFormModal,
+  FloatingContactWidget,
+} from "./components/common";
 
 function App() {
   return (
     <ContactFormProvider>
-      <Box sx={{ minHeight: '100vh' }}>
+      <Box sx={{ minHeight: "100vh" }}>
         {/* Fixed Navbar */}
         <Navbar />
 
@@ -31,6 +46,9 @@ function App() {
         {/* Testimonials Section */}
         <Testimonials />
 
+        {/* Gallery Section */}
+        <Gallery />
+
         {/* FAQ Section */}
         <FAQ />
 
@@ -39,7 +57,6 @@ function App() {
 
         {/* Footer */}
         <Footer />
-
       </Box>
 
       {/* Contact Form Modal */}
@@ -51,6 +68,4 @@ function App() {
   );
 }
 
-
 export default App;
-

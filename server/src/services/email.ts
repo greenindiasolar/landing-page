@@ -5,9 +5,17 @@ import type { LeadData, ContactFormData } from './googleSheets.js';
 const resend = new Resend(config.resendApiKey);
 
 /**
- * Format currency in Indian format
+ * Format currency in Indian format with Lakh/Crore
  */
 function formatCurrency(amount: number): string {
+  if (amount >= 10000000) {
+    // 1 Crore = 1,00,00,000
+    return `₹${(amount / 10000000).toFixed(2)} Crore`;
+  }
+  if (amount >= 100000) {
+    // 1 Lakh = 1,00,000
+    return `₹${(amount / 100000).toFixed(1)} Lakh`;
+  }
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',

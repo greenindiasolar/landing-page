@@ -1,219 +1,348 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Star } from 'lucide-react';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackwardIcon from '@mui/icons-material/ArrowBack';
-import test1 from '../../../assets/Images/Testimonial/1.jpeg';
-import test2 from '../../../assets/Images/Testimonial/2.jpeg';
-import test3 from '../../../assets/Images/Testimonial/3.jpeg';
-import test4 from '../../../assets/Images/Testimonial/4.jpeg';
-import test5 from '../../../assets/Images/Testimonial/5.jpeg';
-import test6 from '../../../assets/Images/Testimonial/6.jpeg';
-import test7 from '../../../assets/Images/Testimonial/7.jpeg';
-import test8 from '../../../assets/Images/Testimonial/8.jpeg';
-import test9 from '../../../assets/Images/Testimonial/9.jpeg';
-import test10 from '../../../assets/Images/Testimonial/10.jpeg';
-import test11 from '../../../assets/Images/Testimonial/11.jpeg';
-import test12 from '../../../assets/Images/Testimonial/12.jpeg';
-import test13 from '../../../assets/Images/Testimonial/13.jpeg';
-import test14 from '../../../assets/Images/Testimonial/14.jpeg';
-import test15 from '../../../assets/Images/Testimonial/15.jpeg';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Star } from "lucide-react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
+import CloseIcon from "@mui/icons-material/Close";
+import test1_bill_before from "../../../assets/Images/Testimonial/Testimonial-Bills/image1-before-bill.jpg";
+import test1_bill_after from "../../../assets/Images/Testimonial/Testimonial-Bills/image1-after-bill.jpg";
+import test2_bill_before from "../../../assets/Images/Testimonial/Testimonial-Bills/image2-before-bill.jpg";
+import test2_bill_after from "../../../assets/Images/Testimonial/Testimonial-Bills/image2-after-bill.jpg";
+import test3_bill_before from "../../../assets/Images/Testimonial/Testimonial-Bills/image3-before-bill.jpg";
+import test3_bill_after from "../../../assets/Images/Testimonial/Testimonial-Bills/image3-after-bill.jpg";
+import test4_bill_before from "../../../assets/Images/Testimonial/Testimonial-Bills/image4-before-bill.jpg";
+import test4_bill_after from "../../../assets/Images/Testimonial/Testimonial-Bills/image4-after-bill.jpg";
+import test5_bill_before from "../../../assets/Images/Testimonial/Testimonial-Bills/image5-before-bill.jpg";
+import test5_bill_after from "../../../assets/Images/Testimonial/Testimonial-Bills/image5-after-bill.jpg";
+import test1 from "../../../assets/Images/Testimonial/Testimonial-Images/image1.jpeg";
+import test2 from "../../../assets/Images/Testimonial/Testimonial-Images/image2.jpeg";
+import test3 from "../../../assets/Images/Testimonial/Testimonial-Images/image3.jpeg";
+import test4 from "../../../assets/Images/Testimonial/Testimonial-Images/image4.jpeg";
+import test5 from "../../../assets/Images/Testimonial/Testimonial-Images/image5.jpeg";
 
 const designTokens = {
   colors: {
     brand: {
-      primary: '#ff9010',
-      primaryDark: '#e8830f',
-      primaryPale: '#fff4e7',
+      primary: "#ff9010",
+      primaryDark: "#e8830f",
+      primaryPale: "#fff4e7",
     },
     accent: {
-      green: '#64d240',
+      green: "#64d240",
     },
     text: {
-      primary: '#111827',
-      secondary: '#1f2937',
-      tertiary: '#374151',
-      body: '#6b7280',
-      muted: '#9ca3af',
-      white: '#f9fafb',
+      primary: "#111827",
+      secondary: "#1f2937",
+      tertiary: "#374151",
+      body: "#6b7280",
+      muted: "#9ca3af",
+      white: "#f9fafb",
     },
     bg: {
-      white: '#ffffff',
-      lightest: '#f9fafb',
-      light: '#f3f4f6',
+      white: "#ffffff",
+      lightest: "#f9fafb",
+      light: "#f3f4f6",
     },
     border: {
-      light: '#f9fafb',
-      default: '#d9d9d9',
+      light: "#f9fafb",
+      default: "#d9d9d9",
     },
   },
   radius: {
-    lg: '12px',
-    xl: '16px',
-    pill: '99px',
+    lg: "12px",
+    xl: "16px",
+    pill: "99px",
   },
+};
+
+// Bill Modal Component
+interface BillModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  billBefore: string;
+  billAfter: string;
+  customerName: string;
+}
+
+const BillModal = ({
+  isOpen,
+  onClose,
+  billBefore,
+  billAfter,
+  customerName,
+}: BillModalProps) => {
+  const [isMobileModal, setIsMobileModal] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileModal(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 9999,
+        padding: isMobileModal ? "16px" : "40px",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: designTokens.colors.bg.white,
+          borderRadius: isMobileModal ? "12px" : "16px",
+          padding: isMobileModal ? "20px" : "32px",
+          maxWidth: "900px",
+          width: "100%",
+          maxHeight: "90vh",
+          overflow: "auto",
+          position: "relative",
+          boxShadow: "0px 24px 48px -12px rgba(16, 24, 40, 0.25)",
+        }}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: isMobileModal ? "12px" : "16px",
+            right: isMobileModal ? "12px" : "16px",
+            width: isMobileModal ? "36px" : "44px",
+            height: isMobileModal ? "36px" : "44px",
+            borderRadius: "50%",
+            border: "none",
+            backgroundColor: designTokens.colors.bg.light,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor =
+              designTokens.colors.brand.primary;
+            const icon = e.currentTarget.querySelector("svg");
+            if (icon) icon.style.color = "#fff";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor =
+              designTokens.colors.bg.light;
+            const icon = e.currentTarget.querySelector("svg");
+            if (icon) icon.style.color = designTokens.colors.text.tertiary;
+          }}
+        >
+          <CloseIcon
+            sx={{
+              fontSize: isMobileModal ? "20px" : "24px",
+              color: designTokens.colors.text.tertiary,
+            }}
+          />
+        </button>
+
+        {/* Modal Header */}
+        <div
+          style={{
+            marginBottom: isMobileModal ? "20px" : "28px",
+            paddingRight: "48px",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: isMobileModal ? "20px" : "28px",
+              fontWeight: 600,
+              color: designTokens.colors.text.primary,
+              marginBottom: "8px",
+              fontFamily: "'Onest', sans-serif",
+              letterSpacing: "-0.56px",
+            }}
+          >
+            Bill Comparison
+          </h3>
+          <p
+            style={{
+              fontSize: isMobileModal ? "14px" : "16px",
+              color: designTokens.colors.text.body,
+              fontFamily: "'Onest', sans-serif",
+            }}
+          >
+            See how {customerName}'s electricity bill changed after solar
+            installation
+          </p>
+        </div>
+
+        {/* Bills Container */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobileModal ? "1fr" : "1fr 1fr",
+            gap: isMobileModal ? "20px" : "24px",
+          }}
+        >
+          {/* Before Bill */}
+          <div
+            style={{
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: `1px solid ${designTokens.colors.border.default}`,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#FEE2E2",
+                padding: isMobileModal ? "12px 16px" : "14px 20px",
+                borderBottom: `1px solid ${designTokens.colors.border.default}`,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: isMobileModal ? "14px" : "16px",
+                  fontWeight: 600,
+                  color: "#991B1B",
+                  fontFamily: "'Onest', sans-serif",
+                }}
+              >
+                Before Solar
+              </span>
+            </div>
+            <img
+              src={billBefore}
+              alt="Electricity bill before solar installation"
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+              }}
+            />
+          </div>
+
+          {/* After Bill */}
+          <div
+            style={{
+              borderRadius: "12px",
+              overflow: "hidden",
+              border: `1px solid ${designTokens.colors.border.default}`,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#D1FAE5",
+                padding: isMobileModal ? "12px 16px" : "14px 20px",
+                borderBottom: `1px solid ${designTokens.colors.border.default}`,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: isMobileModal ? "14px" : "16px",
+                  fontWeight: 600,
+                  color: "#065F46",
+                  fontFamily: "'Onest', sans-serif",
+                }}
+              >
+                After Solar
+              </span>
+            </div>
+            <img
+              src={billAfter}
+              alt="Electricity bill after solar installation"
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 interface Testimonial {
   id: number;
   name: string;
-  role: string;
-  location: string;
   rating: number;
   review: string;
   image: string;
-  address: string;
+  bill_before: string;
+  bill_after: string;
 }
 
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: 'Praveen Kumar',
-    role: 'Property Investor',
-    location: 'Vijayawada',
+    name: "Koti Reddy",
     rating: 5,
-    review: 'I was skeptical about solar, but Green India Solar\'s transparent pricing and subsidy assistance made it achievable. My rooftop now generates income, not just power.',
-    address: '13-2-329, 13th Ward, Kcp Colony, Macherla, Andhra Pradesh 522426, India',
+    review: `Green India Solar Energy provided clear pricing with no hidden charges. They explained the cost,
+expected savings, and returns in a straightforward way. That clarity helped us take a confident
+decision`,
     image: test1,
+    bill_after: test1_bill_after,
+    bill_before: test1_bill_before,
   },
   {
     id: 2,
-    name: 'Rajesh Kumar',
-    role: 'Homeowner',
-    location: 'Hyderabad',
+    name: "Adi Narayana",
     rating: 5,
-    review: 'Switching to solar was the best decision for our home. Green India Solar handled everything from design to installation perfectly. Our electricity bills have dropped by 80%.',
-    address: 'Banjara Hills, Hyderabad, Telangana 500034, India',
+    review: `The installation was completed on schedule, and the team worked in a disciplined and safe manner.
+They maintained cleanliness at the site and handled the work professionally throughout.`,
     image: test2,
+    bill_after: test2_bill_after,
+    bill_before: test2_bill_before,
   },
   {
     id: 3,
-    name: 'Priya Sharma',
-    role: 'Business Owner',
-    location: 'Bangalore',
+    name: "Rama krishna",
     rating: 5,
-    review: 'Professional service from start to finish. The team was knowledgeable, transparent about costs, and completed the installation in just 3 days. Amazing savings!',
-    address: 'Whitefield, Bangalore, Karnataka 560066, India',
+    review: `Even after installation, the team responds promptly whenever we have questions. Their continued
+support gives us confidence and makes the overall experience dependable.`,
     image: test3,
+    bill_after: test3_bill_after,
+    bill_before: test3_bill_before,
   },
   {
     id: 4,
-    name: 'Venkat Reddy',
-    role: 'Factory Owner',
-    location: 'Guntur',
+    name: "Vardhanamma",
     rating: 5,
-    review: 'Our manufacturing unit now runs 70% on solar power. The ROI was much faster than expected. Excellent installation team!',
-    address: 'Industrial Area, Guntur, Andhra Pradesh 522001, India',
+    review: `From the initial discussion to installation, the entire process was handled properly. They guided us
+clearly on documentation and subsidy-related steps, making the experience smooth and stress-free.`,
     image: test4,
+    bill_after: test4_bill_after,
+    bill_before: test4_bill_before,
   },
   {
     id: 5,
-    name: 'Lakshmi Devi',
-    role: 'Homeowner',
-    location: 'Vizag',
+    name: "Rajeswari",
     rating: 5,
-    review: 'From consultation to installation, everything was seamless. My monthly bill went from ₹8,000 to just ₹800!',
-    address: 'MVP Colony, Visakhapatnam, Andhra Pradesh 530017, India',
+    review: `After installing solar with Green India Solar Energy, our electricity bill has reduced noticeably. They
+suggested a system suitable for our usage and explained everything clearly before installation.`,
     image: test5,
-  },
-  {
-    id: 6,
-    name: 'Suresh Babu',
-    role: 'Apartment Owner',
-    location: 'Chennai',
-    rating: 5,
-    review: 'Installed solar for our entire apartment complex. The subsidy assistance saved us lakhs. Highly recommended!',
-    address: 'Anna Nagar, Chennai, Tamil Nadu 600040, India',
-    image: test6,
-  },
-  {
-    id: 7,
-    name: 'Anitha Rao',
-    role: 'School Principal',
-    location: 'Tirupati',
-    rating: 5,
-    review: 'Our school campus is now powered by clean energy. The students learn about sustainability every day. Thank you Green India Solar!',
-    address: 'Renigunta Road, Tirupati, Andhra Pradesh 517501, India',
-    image: test7,
-  },
-  {
-    id: 8,
-    name: 'Mohammed Irfan',
-    role: 'Hotel Owner',
-    location: 'Nellore',
-    rating: 5,
-    review: 'Running a hotel requires a lot of power. Solar has cut our operational costs by 60%. Best investment we made!',
-    address: 'Grand Trunk Road, Nellore, Andhra Pradesh 524001, India',
-    image: test8,
-  },
-  {
-    id: 9,
-    name: 'Padma Kumari',
-    role: 'Homeowner',
-    location: 'Rajahmundry',
-    rating: 5,
-    review: 'The team was very professional and completed the installation in just 2 days. Now we enjoy free electricity!',
-    address: 'Danavaipeta, Rajahmundry, Andhra Pradesh 533103, India',
-    image: test9,
-  },
-  {
-    id: 10,
-    name: 'Ravi Teja',
-    role: 'IT Professional',
-    location: 'Hyderabad',
-    rating: 5,
-    review: 'Work from home became much cheaper after going solar. The mobile app monitoring is a great touch!',
-    address: 'Gachibowli, Hyderabad, Telangana 500032, India',
-    image: test10,
-  },
-  {
-    id: 11,
-    name: 'Srinivas Murthy',
-    role: 'Farmer',
-    location: 'Kurnool',
-    rating: 5,
-    review: 'Solar powered irrigation has transformed my farm. No more dependency on erratic power supply!',
-    address: 'Nandyal Road, Kurnool, Andhra Pradesh 518002, India',
-    image: test11,
-  },
-  {
-    id: 12,
-    name: 'Kavitha Reddy',
-    role: 'Doctor',
-    location: 'Warangal',
-    rating: 5,
-    review: 'Our clinic runs on 100% solar power. Patients appreciate our commitment to green energy. Great service!',
-    address: 'Hanamkonda, Warangal, Telangana 506001, India',
-    image: test12,
-  },
-  {
-    id: 13,
-    name: 'Narasimha Rao',
-    role: 'Retired Engineer',
-    location: 'Vijayawada',
-    rating: 5,
-    review: 'As an engineer, I was impressed by the quality of installation and components. Exceeded my expectations!',
-    address: 'Governorpet, Vijayawada, Andhra Pradesh 520002, India',
-    image: test13,
-  },
-  {
-    id: 14,
-    name: 'Bhavani Shankar',
-    role: 'Restaurant Owner',
-    location: 'Secunderabad',
-    rating: 5,
-    review: 'Our restaurant kitchen runs on solar. The monthly savings are incredible. Thank you for the excellent support!',
-    address: 'Paradise Circle, Secunderabad, Telangana 500003, India',
-    image: test14,
-  },
-  {
-    id: 15,
-    name: 'Swathi Lakshmi',
-    role: 'Homeowner',
-    location: 'Bangalore',
-    rating: 5,
-    review: 'Zero electricity bill for 8 months straight! The installation quality is top-notch. Highly satisfied customer here!',
-    address: 'Electronic City, Bangalore, Karnataka 560100, India',
-    image: test15,
+    bill_after: test5_bill_after,
+    bill_before: test5_bill_before,
   },
 ];
 
@@ -225,6 +354,7 @@ const TestimonialCarousel = () => {
   const [isSmallMobile, setIsSmallMobile] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [isBillModalOpen, setIsBillModalOpen] = useState(false);
   const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const currentTestimonial = testimonials[currentIndex];
@@ -261,17 +391,21 @@ const TestimonialCarousel = () => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? testimonials.length - 1 : prev - 1,
+    );
     resetAutoScroll();
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === testimonials.length - 1 ? 0 : prev + 1,
+    );
     resetAutoScroll();
   };
 
@@ -284,9 +418,9 @@ const TestimonialCarousel = () => {
 
   // Create infinite carousel by tripling images
   const carouselImages = [
-    ...testimonials.map(t => t.image),
-    ...testimonials.map(t => t.image),
-    ...testimonials.map(t => t.image),
+    ...testimonials.map((t) => t.image),
+    ...testimonials.map((t) => t.image),
+    ...testimonials.map((t) => t.image),
   ];
 
   const imageWidth = isSmallMobile ? 60 : isMobile ? 80 : isTablet ? 120 : 160;
@@ -304,58 +438,119 @@ const TestimonialCarousel = () => {
   };
 
   return (
-    <div id='testimonials' data-scroll-section style={{
-      backgroundColor: '#fff',
-      padding: isSmallMobile ? '40px 0 40px' : isMobile ? '40px 0 60px' : isTablet ? '60px 0 80px' : '0',
-      fontFamily: "'Onest', -apple-system, BlinkMacSystemFont, sans-serif"
-    }}>
-      <div style={{
-        maxWidth: '1280px',
-        margin: '0 auto',
-        padding: isSmallMobile ? '0 16px' : isMobile ? '0 20px' : isTablet ? '0 32px' : '0 40px'
-      }}>
+    <div
+      id="testimonials"
+      data-scroll-section
+      style={{
+        backgroundColor: "#fff",
+        padding: isSmallMobile
+          ? "40px 0 40px"
+          : isMobile
+            ? "40px 0 60px"
+            : isTablet
+              ? "60px 0 80px"
+              : "0",
+        fontFamily: "'Onest', -apple-system, BlinkMacSystemFont, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: isSmallMobile
+            ? "0 16px"
+            : isMobile
+              ? "0 20px"
+              : isTablet
+                ? "0 32px"
+                : "0 40px",
+        }}
+      >
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: isSmallMobile ? '32px' : isMobile ? '40px' : '64px', marginLeft:isSmallMobile?'20px':0 , marginRight:isSmallMobile?'20px':0}}>
-          <h2 style={{
-            fontSize: isSmallMobile ? '24px' : isMobile ? '32px' : isTablet ? '40px' : '48px',
-            fontWeight: 700,
-            lineHeight: '1.2',
-            color: designTokens.colors.text.primary,
-            marginBottom: isSmallMobile ? '10px' : isMobile ? '12px' : '16px',
-            letterSpacing: isSmallMobile ? '-0.48px' : '-0.96px',
-          }}>
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: isSmallMobile ? "32px" : isMobile ? "40px" : "64px",
+            marginLeft: isSmallMobile ? "20px" : 0,
+            marginRight: isSmallMobile ? "20px" : 0,
+          }}
+        >
+          <h2
+            style={{
+              fontSize: isSmallMobile
+                ? "24px"
+                : isMobile
+                  ? "32px"
+                  : isTablet
+                    ? "40px"
+                    : "48px",
+              fontWeight: 700,
+              lineHeight: "1.2",
+              color: designTokens.colors.text.primary,
+              marginBottom: isSmallMobile ? "10px" : isMobile ? "12px" : "16px",
+              letterSpacing: isSmallMobile ? "-0.48px" : "-0.96px",
+            }}
+          >
             Real Homes. Real Savings. Real Trust.
           </h2>
-          <p style={{
-            fontSize: isSmallMobile ? '14px' : isMobile ? '16px' : '20px',
-            color: designTokens.colors.text.body,
-            maxWidth: '700px',
-            margin: '0 auto',
-            lineHeight: '1.6',
-            padding: isMobile ? '0 30px' : '0',
-          }}>
+          <p
+            style={{
+              fontSize: isSmallMobile ? "14px" : isMobile ? "16px" : "20px",
+              color: designTokens.colors.text.body,
+              maxWidth: "700px",
+              margin: "0 auto",
+              lineHeight: "1.6",
+              padding: isMobile ? "0 30px" : "0",
+            }}
+          >
             We don't rely on claims. We rely on customer experiences.
           </p>
         </div>
 
         {/* Main Content */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile || isTablet ? '1fr' : '440px 1fr',
-          gap: '0',
-          alignItems: 'center',
-          marginBottom: isSmallMobile ? '24px' : isMobile ? '32px' : isTablet ? '40px' : '48px',
-          backgroundColor: designTokens.colors.bg.lightest,
-          borderRadius: isSmallMobile ? '12px' : '16px',
-          overflow: 'hidden',
-        }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile || isTablet ? "1fr" : "440px 1fr",
+            gap: "0",
+            alignItems: "center",
+            marginBottom: isSmallMobile
+              ? "24px"
+              : isMobile
+                ? "32px"
+                : isTablet
+                  ? "40px"
+                  : "48px",
+            backgroundColor: designTokens.colors.bg.lightest,
+            borderRadius: isSmallMobile ? "12px" : "16px",
+            overflow: "hidden",
+          }}
+        >
           {/* Left Side - Testimonial Card */}
-          <div style={{
-            padding: isSmallMobile ? '20px' : isMobile ? '28px' : isTablet ? '32px' : '40px',
-            height: 'fit-content',
-          }}>
+          <div
+            style={{
+              padding: isSmallMobile
+                ? "20px"
+                : isMobile
+                  ? "28px"
+                  : isTablet
+                    ? "32px"
+                    : "40px",
+              height: "fit-content",
+            }}
+          >
             {/* Stars */}
-            <div style={{ display: 'flex', gap: isSmallMobile ? '3px' : '4px', marginBottom: isSmallMobile ? '16px' : isMobile ? '20px' : '24px' }}>
+            <div
+              style={{
+                display: "flex",
+                gap: isSmallMobile ? "3px" : "4px",
+                marginBottom: isSmallMobile
+                  ? "16px"
+                  : isMobile
+                    ? "20px"
+                    : "24px",
+              }}
+            >
               {[...Array(currentTestimonial.rating)].map((_, i) => (
                 <Star
                   key={i}
@@ -367,161 +562,270 @@ const TestimonialCarousel = () => {
             </div>
 
             {/* Review Text */}
-            <p style={{
-              fontSize: isSmallMobile ? '14px' : isMobile ? '16px' : '18px',
-              lineHeight: isSmallMobile ? '1.6' : '1.7',
-              color: designTokens.colors.text.tertiary,
-              marginBottom: isSmallMobile ? '20px' : isMobile ? '24px' : '32px',
-              fontWeight: 400,
-            }}>
+            <p
+              style={{
+                fontSize: isSmallMobile ? "14px" : isMobile ? "16px" : "18px",
+                lineHeight: isSmallMobile ? "1.6" : "1.7",
+                color: designTokens.colors.text.tertiary,
+                marginBottom: isSmallMobile
+                  ? "20px"
+                  : isMobile
+                    ? "24px"
+                    : "32px",
+                fontWeight: 400,
+              }}
+            >
               {currentTestimonial.review}
             </p>
 
             {/* Customer Info */}
-            <div style={{ marginBottom: isSmallMobile ? '20px' : isMobile ? '24px' : '32px' }}>
-              <h3 style={{
-                fontSize: isSmallMobile ? '16px' : isMobile ? '18px' : '20px',
-                fontWeight: 700,
-                color: designTokens.colors.text.primary,
-                marginBottom: '4px',
-              }}>
+            <div
+              style={{
+                marginBottom: isSmallMobile
+                  ? "20px"
+                  : isMobile
+                    ? "24px"
+                    : "32px",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: isSmallMobile ? "16px" : isMobile ? "18px" : "20px",
+                  fontWeight: 700,
+                  color: designTokens.colors.text.primary,
+                  marginBottom: "4px",
+                }}
+              >
                 {currentTestimonial.name}
               </h3>
-              <p style={{
-                fontSize: isSmallMobile ? '12px' : isMobile ? '13px' : '14px',
-                color: designTokens.colors.text.body,
-                fontWeight: 400,
-              }}>
-                {currentTestimonial.role}, {currentTestimonial.location}
+              <p
+                style={{
+                  fontSize: isSmallMobile ? "12px" : isMobile ? "13px" : "14px",
+                  color: designTokens.colors.brand.primary,
+                  fontWeight: 500,
+                }}
+              >
+                Verified Customer
               </p>
             </div>
 
             {/* Navigation Arrows */}
-            <div style={{ display: 'flex', gap: isSmallMobile ? '10px' : '12px' }}>
+            <div
+              style={{ display: "flex", gap: isSmallMobile ? "10px" : "12px" }}
+            >
               <button
                 onClick={handlePrevious}
                 style={{
-                  width: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
-                  height: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
-                  borderRadius: '50%',
+                  width: isSmallMobile ? "40px" : isMobile ? "44px" : "56px",
+                  height: isSmallMobile ? "40px" : isMobile ? "44px" : "56px",
+                  borderRadius: "50%",
                   border: `1px solid #FFF4E7`,
-                  backgroundColor: 'transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
+                  backgroundColor: "transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = designTokens.colors.brand.primary;
-                  const svg = e.currentTarget.querySelector('svg');
-                  if (svg) svg.setAttribute('stroke', 'white');
+                  e.currentTarget.style.backgroundColor =
+                    designTokens.colors.brand.primary;
+                  const svg = e.currentTarget.querySelector("svg");
+                  if (svg) svg.setAttribute("stroke", "white");
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  const svg = e.currentTarget.querySelector('svg');
-                  if (svg) svg.setAttribute('stroke', designTokens.colors.brand.primary);
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  const svg = e.currentTarget.querySelector("svg");
+                  if (svg)
+                    svg.setAttribute(
+                      "stroke",
+                      designTokens.colors.brand.primary,
+                    );
                 }}
               >
-                <ArrowBackwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isSmallMobile ? '18px' : isMobile ? '20px' : '24px' }} />
+                <ArrowBackwardIcon
+                  sx={{
+                    color: designTokens.colors.brand.primary,
+                    fontSize: isSmallMobile
+                      ? "18px"
+                      : isMobile
+                        ? "20px"
+                        : "24px",
+                  }}
+                />
               </button>
               <button
                 onClick={handleNext}
                 style={{
-                  width: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
-                  height: isSmallMobile ? '40px' : isMobile ? '44px' : '56px',
-                  borderRadius: '50%',
+                  width: isSmallMobile ? "40px" : isMobile ? "44px" : "56px",
+                  height: isSmallMobile ? "40px" : isMobile ? "44px" : "56px",
+                  borderRadius: "50%",
                   border: `1px solid #FFF4E7`,
-                  backgroundColor: 'transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
+                  backgroundColor: "transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = designTokens.colors.brand.primary;
-                  const svg = e.currentTarget.querySelector('svg');
-                  if (svg) svg.setAttribute('stroke', 'white');
+                  e.currentTarget.style.backgroundColor =
+                    designTokens.colors.brand.primary;
+                  const svg = e.currentTarget.querySelector("svg");
+                  if (svg) svg.setAttribute("stroke", "white");
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  const svg = e.currentTarget.querySelector('svg');
-                  if (svg) svg.setAttribute('stroke', designTokens.colors.brand.primary);
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  const svg = e.currentTarget.querySelector("svg");
+                  if (svg)
+                    svg.setAttribute(
+                      "stroke",
+                      designTokens.colors.brand.primary,
+                    );
                 }}
               >
-                <ArrowForwardIcon sx={{ color: designTokens.colors.brand.primary, fontSize: isSmallMobile ? '18px' : isMobile ? '20px' : '24px' }} />
+                <ArrowForwardIcon
+                  sx={{
+                    color: designTokens.colors.brand.primary,
+                    fontSize: isSmallMobile
+                      ? "18px"
+                      : isMobile
+                        ? "20px"
+                        : "24px",
+                  }}
+                />
               </button>
             </div>
           </div>
 
           {/* Right Side - Image flush to right edge */}
-          <div style={{
-            position: 'relative',
-            overflow: 'hidden',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}>
+          <div
+            style={{
+              position: "relative",
+              overflow: "hidden",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
             <img
               src={currentTestimonial.image}
               alt={currentTestimonial.name}
               style={{
-                display: 'block',
-                width: '100%',
-                maxHeight: isSmallMobile ? '300px' : isMobile ? '400px' : isTablet ? '450px' : '500px',
-                objectFit: 'contain',
-                objectPosition: 'right center',
-                transition: 'opacity 0.3s ease',
+                display: "block",
+                width: "100%",
+                maxHeight: isSmallMobile
+                  ? "300px"
+                  : isMobile
+                    ? "400px"
+                    : isTablet
+                      ? "450px"
+                      : "500px",
+                objectFit: "contain",
+                objectPosition: "right center",
+                transition: "opacity 0.3s ease",
               }}
             />
+            
+            {/* View Bill Button */}
+            <button
+              onClick={() => setIsBillModalOpen(true)}
+              style={{
+                position: "absolute",
+                top: isSmallMobile ? "12px" : "20px",
+                right: isSmallMobile ? "12px" : "20px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: isSmallMobile ? "8px 12px" : "10px 16px",
+                backgroundColor: designTokens.colors.brand.primary,
+                color: "#fff",
+                border: "none",
+                borderRadius: designTokens.radius.lg,
+                fontSize: isSmallMobile ? "12px" : "14px",
+                fontWeight: 500,
+                fontFamily: "'Onest', sans-serif",
+                cursor: "pointer",
+                boxShadow: "0px 4px 12px rgba(255, 144, 16, 0.4)",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = designTokens.colors.brand.primaryDark;
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = designTokens.colors.brand.primary;
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              View Bill
+            </button>
           </div>
         </div>
 
         {/* Image Gallery Carousel with Centered Selection and Fade Edges */}
-        <div style={{
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
           {/* Left Fade Gradient */}
-          <div style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: isSmallMobile ? '60px' : isMobile ? '80px' : '150px',
-            background: 'linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)',
-            zIndex: 2,
-            pointerEvents: 'none',
-          }} />
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: isSmallMobile ? "60px" : isMobile ? "80px" : "150px",
+              background:
+                "linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)",
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          />
 
           {/* Right Fade Gradient */}
-          <div style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: isSmallMobile ? '60px' : isMobile ? '80px' : '150px',
-            background: 'linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)',
-            zIndex: 2,
-            pointerEvents: 'none',
-          }} />
+          <div
+            style={{
+              position: "absolute",
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: isSmallMobile ? "60px" : isMobile ? "80px" : "150px",
+              background:
+                "linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)",
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          />
 
           {/* Carousel Container */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              display: 'flex',
-              paddingTop: '20px',
-              paddingBottom: '20px',
-              gap: `${imageGap}px`,
-              transform: `translateX(calc(50% - ${imageWidth / 2}px + ${getTranslateX()}px))`,
-              transition: 'transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)',
-            }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+                gap: `${imageGap}px`,
+                transform: `translateX(calc(50% - ${imageWidth / 2}px + ${getTranslateX()}px))`,
+                transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+              }}
+            >
               {carouselImages.map((img: string, idx: number) => {
                 const actualIndex = idx % totalItems;
                 const isActive = actualIndex === currentIndex;
@@ -530,17 +834,27 @@ const TestimonialCarousel = () => {
                   <div
                     key={idx}
                     style={{
-                      flex: '0 0 auto',
+                      flex: "0 0 auto",
                       width: `${imageWidth}px`,
-                      height: isSmallMobile ? '60px' : isMobile ? '80px' : isTablet ? '110px' : '140px',
-                      borderRadius: isSmallMobile ? '8px' : isMobile ? '10px' : '14px',
-                      overflow: 'hidden',
-                      cursor: 'pointer',
+                      height: isSmallMobile
+                        ? "60px"
+                        : isMobile
+                          ? "80px"
+                          : isTablet
+                            ? "110px"
+                            : "140px",
+                      borderRadius: isSmallMobile
+                        ? "8px"
+                        : isMobile
+                          ? "10px"
+                          : "14px",
+                      overflow: "hidden",
+                      cursor: "pointer",
                       border: isActive
-                        ? `${isSmallMobile ? '2px' : isMobile ? '3px' : '4px'} solid ${designTokens.colors.brand.primary}`
-                        : '3px solid transparent',
-                      transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
-                      transform: isActive ? 'scale(1.15)' : 'scale(1)',
+                        ? `${isSmallMobile ? "2px" : isMobile ? "3px" : "4px"} solid ${designTokens.colors.brand.primary}`
+                        : "3px solid transparent",
+                      transition: "all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
+                      transform: isActive ? "scale(1.15)" : "scale(1)",
                       opacity: isActive ? 1 : 0.5,
                       // boxShadow: isActive
                       //   ? '0 8px 24px rgba(255, 144, 16, 0.4)'
@@ -549,14 +863,14 @@ const TestimonialCarousel = () => {
                     onClick={() => handleThumbnailClick(idx)}
                     onMouseEnter={(e) => {
                       if (!isActive) {
-                        e.currentTarget.style.opacity = '0.8';
-                        e.currentTarget.style.transform = 'scale(1.05)';
+                        e.currentTarget.style.opacity = "0.8";
+                        e.currentTarget.style.transform = "scale(1.05)";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isActive) {
-                        e.currentTarget.style.opacity = '0.5';
-                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.opacity = "0.5";
+                        e.currentTarget.style.transform = "scale(1)";
                       }
                     }}
                   >
@@ -564,9 +878,9 @@ const TestimonialCarousel = () => {
                       src={img}
                       alt={`${testimonials[actualIndex].name}'s installation`}
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
                       }}
                     />
                   </div>
@@ -576,26 +890,29 @@ const TestimonialCarousel = () => {
           </div>
 
           {/* Carousel Indicators */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: isSmallMobile ? '4px' : '6px',
-            marginTop: isSmallMobile ? '16px' : isMobile ? '20px' : '28px',
-          }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: isSmallMobile ? "4px" : "6px",
+              marginTop: isSmallMobile ? "16px" : isMobile ? "20px" : "28px",
+            }}
+          >
             {testimonials.map((_, idx: number) => (
               <button
                 key={idx}
                 onClick={() => handleThumbnailClick(idx)}
                 style={{
-                  width: idx === currentIndex ? '28px' : '8px',
-                  height: '8px',
-                  borderRadius: '4px',
-                  border: 'none',
-                  backgroundColor: idx === currentIndex
-                    ? designTokens.colors.brand.primary
-                    : designTokens.colors.border.default,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
+                  width: idx === currentIndex ? "28px" : "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                  border: "none",
+                  backgroundColor:
+                    idx === currentIndex
+                      ? designTokens.colors.brand.primary
+                      : designTokens.colors.border.default,
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
                   padding: 0,
                 }}
                 aria-label={`Go to testimonial ${idx + 1}`}
@@ -604,6 +921,15 @@ const TestimonialCarousel = () => {
           </div>
         </div>
       </div>
+
+      {/* Bill Comparison Modal */}
+      <BillModal
+        isOpen={isBillModalOpen}
+        onClose={() => setIsBillModalOpen(false)}
+        billBefore={currentTestimonial.bill_before}
+        billAfter={currentTestimonial.bill_after}
+        customerName={currentTestimonial.name}
+      />
     </div>
   );
 };
