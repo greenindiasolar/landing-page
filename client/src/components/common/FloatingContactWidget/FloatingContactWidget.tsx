@@ -71,8 +71,8 @@ const FloatingButton = styled(IconButton)<{ bgColor: string; hoverColor: string 
 // });
 
 // Configuration - Update these with actual phone numbers
-const PHONE_NUMBER = '+919999999999'; // Replace with actual phone number
-const WHATSAPP_NUMBER = '919999999999'; // WhatsApp format (no + or spaces)
+const PHONE_NUMBER = '+919052166626'; // Replace with actual phone number
+const WHATSAPP_NUMBER = '919052166626'; // WhatsApp format (no + or spaces)
 const WHATSAPP_MESSAGE = 'Hi! I am interested in learning more about solar solutions.';
 
 const FloatingContactWidget: React.FC = () => {

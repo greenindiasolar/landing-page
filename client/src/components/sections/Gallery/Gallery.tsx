@@ -94,7 +94,7 @@ const GalleryItem = styled(Box)({
   position: "relative",
   borderRadius: designTokens.radius.lg,
   overflow: "hidden",
-  aspectRatio: "4/3",
+  aspectRatio: "1/1", // Square ratio for balanced display
   cursor: "pointer",
   transition: "transform 0.3s ease, box-shadow 0.3s ease",
   "&:hover": {
@@ -105,6 +105,7 @@ const GalleryItem = styled(Box)({
     width: "100%",
     height: "100%",
     objectFit: "cover",
+    objectPosition: "center bottom", // Center horizontally, anchor to bottom for location info
     transition: "transform 0.3s ease",
   },
   "&:hover img": {
