@@ -442,6 +442,13 @@ const TestimonialCarousel = () => {
       id="testimonials"
       data-scroll-section
       style={{
+        // REASON: position relative + high z-index makes this section scroll ON TOP of
+        // the sticky cards from OurProcess section, covering the last card as user scrolls
+        position: "relative",
+        zIndex: 10,
+        // REASON: Negative margin pulls Testimonials up into the last card's padding area
+        // This creates smooth transition: 6th overlaps 5th → Testimonials slides over 6th
+        marginTop: "-30vh",
         backgroundColor: "#fff",
         padding: isSmallMobile
           ? "40px 0 40px"
@@ -449,7 +456,7 @@ const TestimonialCarousel = () => {
             ? "40px 0 60px"
             : isTablet
               ? "60px 0 80px"
-              : "0",
+              : "80px 0 80px",
         fontFamily: "'Onest', -apple-system, BlinkMacSystemFont, sans-serif",
       }}
     >
@@ -727,7 +734,7 @@ const TestimonialCarousel = () => {
                 transition: "opacity 0.3s ease",
               }}
             />
-            
+
             {/* View Bill Button */}
             <button
               onClick={() => setIsBillModalOpen(true)}
@@ -751,15 +758,26 @@ const TestimonialCarousel = () => {
                 transition: "all 0.2s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = designTokens.colors.brand.primaryDark;
+                e.currentTarget.style.backgroundColor =
+                  designTokens.colors.brand.primaryDark;
                 e.currentTarget.style.transform = "translateY(-2px)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = designTokens.colors.brand.primary;
+                e.currentTarget.style.backgroundColor =
+                  designTokens.colors.brand.primary;
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                 <polyline points="14 2 14 8 20 8"></polyline>
                 <line x1="16" y1="13" x2="8" y2="13"></line>
