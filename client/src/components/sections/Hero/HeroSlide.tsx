@@ -251,7 +251,12 @@ const HeroSlide: React.FC<HeroSlideProps> = ({ slide, isActive }) => {
 
     return (
         <SlideWrapper isActive={isActive}>
-            <BackgroundImage bgImage={slide.backgroundImage} />
+            <BackgroundImage 
+            bgImage={slide.backgroundImage} 
+            sx={{ 
+                backgroundPosition: { xs: 'right', lg: 'right' }
+             }}
+             />
             <ContentWrapper>
                 <ContentContainer maxWidth={false}>
                     <SectionTag>
