@@ -63,21 +63,24 @@ const SectionWrapper = styled(Box)({
   },
 });
 
-// Sticky Header Container
-const StickyHeader = styled(Box)({
-  position: "sticky",
-  top: 0,
-  zIndex: 100,
-  backgroundColor: designTokens.colors.bg.white,
-  paddingTop: "40px",
-  paddingBottom: "40px",
-  textAlign: "center",
-  "@media (max-width: 900px)": {
-    position: "relative",
-    paddingTop: "20px",
-    paddingBottom: "20px",
-  },
-});
+// Sticky Header Container - now accepts shouldBeSticky prop
+const StickyHeader = styled(Box)<{ shouldBeSticky: boolean }>(
+  ({ shouldBeSticky }) => ({
+    position: shouldBeSticky ? "sticky" : "relative",
+    top: shouldBeSticky ? 0 : "auto",
+    zIndex: 100,
+    backgroundColor: designTokens.colors.bg.white,
+    paddingTop: "40px",
+    paddingBottom: "40px",
+    textAlign: "center",
+    transition: "position 0s", // No transition for position change
+    "@media (max-width: 900px)": {
+      position: "relative",
+      paddingTop: "20px",
+      paddingBottom: "20px",
+    },
+  }),
+);
 
 const SectionTag = styled(Typography)({
   fontFamily: "'Inter', sans-serif",
@@ -397,7 +400,52 @@ const processSteps: ProcessStep[] = [
 
 const OurProcess: React.FC = () => {
   const [visibleSteps, setVisibleSteps] = useState<Set<number>>(new Set());
+  const [isHeaderSticky, setIsHeaderSticky] = useState(true);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastCardRef = useRef<HTMLDivElement | null>(null);
+  const stackingContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Effect to track when last card has fully overlapped (animation complete)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!lastCardRef.current || !stackingContainerRef.current) return;
+
+      const lastCard = lastCardRef.current;
+      const lastCardRect = lastCard.getBoundingClientRect();
+      const lastCardContent = lastCard.querySelector(
+        "[data-card-content]",
+      ) as HTMLElement;
+
+      if (!lastCardContent) return;
+
+      const contentRect = lastCardContent.getBoundingClientRect();
+
+      // Calculate when the last card's content bottom reaches near its final sticky position
+      // The card is "fully overlapped" when its content is visible and near the top
+      const lastCardIndex = processSteps.length - 1;
+      const expectedStickyTop =
+        STICKY_HEADER_HEIGHT + lastCardIndex * CARD_STACK_OFFSET;
+
+      // Check if the last card content top is at or near its sticky position
+      // and the card has scrolled enough that the padding area is being "consumed"
+      const contentDistanceFromStickyPos = contentRect.top - expectedStickyTop;
+
+      // When the last card padding (35vh) starts to scroll past the viewport bottom,
+      // the header should no longer be sticky
+      const viewportHeight = window.innerHeight;
+      const paddingConsumed = lastCardRect.bottom < viewportHeight + 50; // 50px buffer
+
+      if (paddingConsumed && contentDistanceFromStickyPos <= 10) {
+        setIsHeaderSticky(false);
+      } else if (contentRect.top > expectedStickyTop + 100) {
+        // Reset sticky when scrolling back up
+        setIsHeaderSticky(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -432,7 +480,7 @@ const OurProcess: React.FC = () => {
     <SectionWrapper id="our-process" data-scroll-section>
       <Container maxWidth="lg">
         {/* Sticky Header */}
-        <StickyHeader>
+        <StickyHeader shouldBeSticky={isHeaderSticky}>
           <SectionTag>Our Process</SectionTag>
           <Headline>
             A Seamless Journey to <ColoredText>Smart Solar Living</ColoredText>
@@ -444,7 +492,7 @@ const OurProcess: React.FC = () => {
         </StickyHeader>
 
         {/* Stacking Cards - Timeline line is now in ::before pseudo-element */}
-        <StackingContainer>
+        <StackingContainer ref={stackingContainerRef}>
           {processSteps.map((step, index) => {
             const isEven = index % 2 === 0;
             const isVisible = visibleSteps.has(index);
@@ -458,10 +506,11 @@ const OurProcess: React.FC = () => {
                 isLast={isLast}
                 ref={(el: HTMLDivElement | null) => {
                   stepRefs.current[index] = el;
+                  if (isLast) lastCardRef.current = el;
                 }}
               >
                 {/* Timeline now shows on ALL cards including last one */}
-                <CardContent>
+                <CardContent data-card-content>
                   {/* Timeline Number */}
                   <TimelineNumber
                     isVisible={isVisible}

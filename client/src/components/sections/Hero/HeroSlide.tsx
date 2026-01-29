@@ -254,7 +254,7 @@ const HeroSlide: React.FC<HeroSlideProps> = ({ slide, isActive }) => {
             <BackgroundImage 
             bgImage={slide.backgroundImage} 
             sx={{ 
-                backgroundPosition: { xs: 'right', lg: 'right' }
+                backgroundPosition: { xs: '93% center', lg: 'right' }
              }}
              />
             <ContentWrapper>
