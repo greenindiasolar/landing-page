@@ -15,7 +15,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import GoogleIcon from "@mui/icons-material/Google";
-import Logo from "../../../assets/Images/Logo/Green-solar-logo.png";
+import Logo from "../../../assets/Images/Logo/greenlogo.webp";
 
 // Color palette from theme
 const colors = {
