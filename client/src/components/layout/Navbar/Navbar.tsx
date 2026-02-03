@@ -17,7 +17,7 @@ import { styled } from '@mui/material/styles';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { Button, useContactForm } from '../../common';
 import { designTokens } from '../../../theme';
-import GreenSolarLogo from "../../../assets/Images/Logo/Green-solar-logo.png";
+import GreenSolarLogo from "../../../assets/Images/Logo/greenlogo.webp";
 
 interface StyledAppBarProps {
     isVisible: boolean;
